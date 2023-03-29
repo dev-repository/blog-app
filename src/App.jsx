@@ -1,23 +1,20 @@
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Write from "./pages/Write";
 
 export default function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="Register" element={<Register />} />
-          <Route path="login" element={<Login />} />
+        <Route path="/" element={<Login />} />
+        <Route path="about" element={<About />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="Register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="write" element={<Write />} />
+        <Route path="*" element={<NoMatch />} />
 
-          {/* Using path="*"" means "match anything", so this route
-                acts like a catch-all for URLs that we don't have explicit
-                routes for. */}
-          <Route path="*" element={<NoMatch />} />
-        </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<>Admin</>} />
           <Route path="*" element={<NoMatch />} />
@@ -27,43 +24,6 @@ export default function App() {
   );
 }
 
-function Layout() {
-  return (
-    <div>
-      {/* A "layout route" is a good place to put markup you want to
-          share across all the pages on your site, like navigation. */}
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/Register">Register</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/nothing-here">Nothing Here</Link>
-          </li>
-        </ul>
-      </nav>
-
-      <hr />
-
-      {/* An <Outlet> renders whatever child route is currently active,
-          so you can think about this <Outlet> as a placeholder for
-          the child routes we defined above. */}
-      <Outlet />
-    </div>
-  );
-}
 
 function AdminLayout() {
   return (
@@ -107,6 +67,7 @@ function Dashboard() {
     </div>
   );
 }
+
 
 function NoMatch() {
   return (
