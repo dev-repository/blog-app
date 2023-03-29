@@ -93,10 +93,10 @@ const Content = styled.div`
     flex-direction: column;
     h4{
         font-size: 1rem;
-        margin: 0;
-        margin-bottom: 0.25rem;
+        margin: 0px 0px 0.25rem;
         line-height: 1.5;
-        word-wrap: break-word;
+        word-break: break-word;
+        text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         color: #212529;
@@ -131,6 +131,15 @@ const Content = styled.div`
       margin-right: 0.25rem;
     }
   }
+
+  h4 {
+    display: block;
+    margin-block-start: 1.33em;
+    margin-block-end: 1.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
 `
 const Footer = styled.div`
     padding: 0.625rem 1rem;
