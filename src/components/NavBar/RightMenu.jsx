@@ -1,8 +1,13 @@
 import React from "react";
-import { Menu, Button, Space} from "antd";
+import { useNavigate } from 'react-router-dom';
+import { Menu, Button, Space } from "antd";
 import { Icons } from "../../static/svg/Icons";
 
 function RightMenu (){
+    const navigate = useNavigate();
+    const useLogin = () => {
+        navigate('/login');
+    }
     return(
         <Menu>
             {/* Icon Dark */}
@@ -16,7 +21,7 @@ function RightMenu (){
             </Menu.Item>
             {/* 로그인시 바껴야하는 곳 */}
             <Menu.Item>
-                <Button style={{marginRight: '30px'}} type="primary" shape="round">
+                <Button style={{marginRight: '30px'}} type="primary" shape="round" onClick={useLogin}>
                    로그인
                 </Button>
             </Menu.Item>
