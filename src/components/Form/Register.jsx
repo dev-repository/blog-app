@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Input } from 'antd';
-import { BackForm } from '../shared/FormContainer';
+import { BackForm } from '../FormContainer';
 import { useNavigate } from 'react-router-dom';
 
 

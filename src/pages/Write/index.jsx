@@ -1,5 +1,5 @@
 import React from 'react'
-import WriteForm from '../../components/Write'
+import WriteForm from '../../components/Form/Write'
 
 const Write = () => {
     return (

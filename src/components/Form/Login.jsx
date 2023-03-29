@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Input } from 'antd';
-import { BackForm } from '../shared/FormContainer';
+import { BackForm } from '../FormContainer';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
@@ -16,7 +16,7 @@ const LoginForm = () => {
         navigate('/register');
     }
     const writeRegister = () => {
-        writingRegister('/writingRegister')
+        writingRegister('/write')
     }
 
     const newUser = JSON.parse(localStorage.getItem('newUser'));
