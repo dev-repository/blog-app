@@ -1,12 +1,17 @@
 import { Routes, Route, Outlet, Link } from "react-router-dom";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Write from "./pages/Write";
 import Home from "./routes/Home";
-
 
 export default function App() {
   return (
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />
+          <Route path="Register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="write" element={<Write />} />
         </Route>
       </Routes>
   );
