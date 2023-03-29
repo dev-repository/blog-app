@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Input } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 
 
 const WriteForm = () => {
@@ -7,7 +8,7 @@ const WriteForm = () => {
     const [writeForm, setWriteForm] = useState({
         title: "",
         date: "",
-    })
+    }) //title과 date를 가지는 writeForm state생성
 
     const handleWrite = (e) => {
         setWriteForm({
@@ -19,12 +20,16 @@ const WriteForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // console.log(writeForm)
-        console.log("123")
+        console.log("123");
+
+        const userWrite = localStorage.getItem('writeForm') || '[]';
+        const old_write = JSON.parse(userWrite);
+        localStorage.setItem("writeForm", JSON.stringify([...old_write, writeForm]))
     }
 
     return (
         <>
-            <form onClick={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <Input
                     type='text'
                     name='title'
@@ -32,14 +37,15 @@ const WriteForm = () => {
                     value={writeForm.title}
                     onChange={handleWrite}
                 />
+                <TextArea rows={4} placeholder="maxLength is 6" maxLength={6} />
                 <Input
-                    type='text'
+                    type='date'
                     name='date'
                     value={writeForm.date}
                     onChange={handleWrite}
                 />
             </form>
-            <Button type='submit'>글 등록</Button>
+            <Button onClick={handleSubmit}>글 등록</Button>
         </>
     )
 }
