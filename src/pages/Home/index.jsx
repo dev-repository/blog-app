@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import NavBar from "../components/Base/NavBar";
-import PostCard from "../components/PostCard";
+import NavBar from "../../components/NavBar";
+import PostCard from "../../components/PostCard";
 
 function Home() {
    
