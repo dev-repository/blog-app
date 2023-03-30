@@ -1,5 +1,5 @@
 import React from "react";
-import GraidCard from "../../components/PostCard/GridCard";
+import GraidCard from "../../components/PostCard/GraidCard";
 
 function Home() {
    

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PostCard from ".";
+import PostCard from "./PostCard";
 import NavBar from "../NavBar";
 
 function GraidCard(){
@@ -20,6 +20,7 @@ function GraidCard(){
                 </MainFlex>
             </FlexMT>
         </MarginRL>
+    
     </>
 );
 };
@@ -33,16 +34,16 @@ const MarginRL = styled.div`
     @media (max-width: 1056px) {
         width: calc(100% - 2rem);
     }
-    @media (max-width: 1440px) {
+    /* @media (max-width: 1440px) {
         width: 1024px;
-    }
-    @media (max-width: 1919px) {
+    } */
+    /* @media (max-width: 1919px) {
         width: 1376px;
-    }
+    } */
 `;
 const FlexMT = styled.div`
     display: flex;
-    margin-top: 5rem;
+    margin-top: 2rem;
 `;
 
 const MainFlex = styled.main`
@@ -56,7 +57,7 @@ const GridCard = styled.div`
     flex-wrap: wrap;
     
     @media(max-width:767px) {
-        /* margin: 0; */
+        margin: 0;
     }
 `;
 
