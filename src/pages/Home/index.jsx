@@ -13,7 +13,7 @@ function Home() {
                 <FlexMT>
                     <MainFlex>
                         <GridCard>
-                            {Array.from({ length: 10 }).map((_, index) => (
+                            {Array.from({ length: 11 }).map((_, index) => (
                                 <PostCard key={`-${index}`} />
                             ))}
                             {/* <PostCard /> */}
