@@ -9,7 +9,7 @@ function ErrorPage(){
     //뒤로가기 , 예전에는 useHistory였다고함.
     const back = useNavigate();
     const goBack = () =>{
-        back(-1)
+        back(-1);
     } 
     
     return(
@@ -20,7 +20,7 @@ function ErrorPage(){
                 <ErrorImg
                     src="/src/static/images/404.jpg"
                     alt="404 Not Found" />
-                 <BackBtn className="BackBtn" icon={<ArrowLeftOutlined />} onClick={goBack}>Back</BackBtn>
+                 <BackBtn icon={<ArrowLeftOutlined />} onClick={goBack}>Back</BackBtn>
             </Container>
         </>
     );
