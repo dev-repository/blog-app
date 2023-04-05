@@ -7,8 +7,8 @@ function NavBar(){
  return(
    <nav
    className="menu"
-  //  position: "fixed", zIndex: 5,
-   style={{  width: "100%" }}
+  //position: "fixed", zIndex: 5,
+   style={{  width: "100%", height: "65px" }}
  >
    <div className="menu__logo">
      <a href="/">

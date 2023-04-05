@@ -91,6 +91,7 @@ const Content = styled.div`
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    flex: 1 1 0%;
     h4{
         font-size: 1rem;
         margin: 0px 0px 0.25rem;
@@ -100,7 +101,7 @@ const Content = styled.div`
         white-space: nowrap;
         overflow: hidden;
         color: #212529;
-        @media (max-width: 768px) {
+        @media (max-width: 767px) {
             white-space: initial;
         }
     }
