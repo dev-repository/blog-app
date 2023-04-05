@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
 
-    const [username, setUsername] = useState('');
+    const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
 
     const navigate = useNavigate();
     const writingRegister = useNavigate();
+    const homeNavi = useNavigate();
 
     const useNavi = () => {
         navigate('/register');
@@ -19,23 +20,63 @@ const LoginForm = () => {
         writingRegister('/write')
     }
 
-    const newUser = JSON.parse(localStorage.getItem('newUser'));
+    const HomeNavigate = () => {
+        homeNavi('/');
+    }
 
+
+    // const newUser = JSON.parse(localStorage.getItem('newUser'));
     const handleLogin = () => {
         // Local Storage에서 회원가입한 정보를 가져옴
 
-        if (newUser.userName === username && newUser.password === password) {
-            // 로그인 상태를 로그인으로 설정
+        const usersString = localStorage.getItem("users") || "[]";
+        const old_users = JSON.parse(usersString);
+        console.log(old_users);
+
+        const user = old_users.find(
+            (user) => user.userId === userId && user.password === password
+        ); //user라는 변수는 예전users데이터에서 아이디 같은거 패스워드 같은걸 찾는다
+
+        if (user) { //위 조건이 다 맞으면 session을생성하고 조건에 맞았던 데이터를 json.stringify에 넣음
+            localStorage.setItem("session", JSON.stringify(user));
             setLoggedIn(true);
+            const postsString = localStorage.getItem("posts") || "[]";
+            const old_posts = JSON.parse(postsString);
+            console.log("????", old_posts);
+            localStorage.setItem(
+                "posts",
+                JSON.stringify([
+                    ...old_posts,
+                    {
+                        userId: user.userId,
+                        title: "123",
+                        content: "123",
+                        likes: 0,
+                    },
+                ])
+            );
         } else {
-            alert("ddddd");
+            alert("로그인 실패");
         }
-    }
+
+    };
 
     return (
         <BackForm>
-            <Input type='text' onChange={(e) => setUsername(e.target.value)} />
-            <Input type='password' onChange={(e) => setPassword(e.target.value)} />
+            <label htmlFor='userId'>userId</label>
+            <Input
+                id='userId'
+                type='text'
+                onChange={(e) =>
+                    setUserId(e.target.value)}
+            />
+            <label htmlFor='password'>password</label>
+            <Input
+                id='password'
+                type='password'
+                onChange={(e) =>
+                    setPassword(e.target.value)}
+            />
             <div className='LoginBtn'>
                 <Button onClick={handleLogin}>로그인</Button>
 
@@ -43,7 +84,7 @@ const LoginForm = () => {
                     회원가입
                 </Button>
             </div>
-            {loggedIn ? <div>로그인완료</div> : <div>로그인안되었음</div>}
+            {loggedIn ? HomeNavigate() : <div>로그인안되었음</div>}
             <Button onClick={writeRegister}>
                 등록페이지 이동
             </Button>
