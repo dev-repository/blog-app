@@ -7,41 +7,51 @@ import { Icons } from "../../static/svg/Icons";
 
 
 function PostCard() {
+
+    const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
+    const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
+    console.log(loginWriter);
+    console.log(WriteList);
     return (
-
-        <Block>
-            <StyledLink>
-                <RatioImg
-                    widthRatio={1.916}
-                    heightRatio={1} />
-            </StyledLink>
-
-            <Content>
-                <StyledLink>
-                    <h4>제목</h4>
-                    <div className="description-wrapper">
-                        <p>ㅇㅇㅇㅇㅇㅇㅇㅇ</p>
-                    </div>
-                </StyledLink>
-                <div className="sub-info">
-                    <span>날짜</span>
-                    <span className="separator">·</span>
-                    <span>개의 댓글</span>
-                </div>
-            </Content>
-            <Footer>
-                <Link className="userinfo" to={"/"}>
-                    <img src={faker.image.cats()} alt="testImg" />
-                    <span>
-                        by <b>작성자</b>
-                    </span>
-                </Link>
-                <div className="likes">
-                    <Icons.LikeIcon />
-                    좋아요 수
-                </div>
-            </Footer>
-        </Block>
+        <>
+            {WriteList.map((item, index) => (
+                <Block key={index}>
+                    <StyledLink>
+                        <Link to={`/write/writeDetail/${index}`}>
+                            <RatioImg
+                                widthRatio={1.916}
+                                heightRatio={1} />
+                        </Link>
+                    </StyledLink>
+                    <Content>
+                        <StyledLink>
+                            <h4>제목</h4>
+                            <div className="description-wrapper">
+                                <p>{item.title}</p>
+                                <p>{item.title}</p>
+                            </div>
+                        </StyledLink>
+                        <div className="sub-info">
+                            <span>{item.date}</span>
+                            <span className="separator">·</span>
+                            <span>개의 댓글</span>
+                        </div>
+                    </Content>
+                    <Footer>
+                        <Link className="userinfo" to={"/"}>
+                            <img src={faker.image.cats()} alt="testImg" />
+                            <span>
+                                by <b>{item.writer}</b>
+                            </span>
+                        </Link>
+                        <div className="likes">
+                            <Icons.LikeIcon />
+                            좋아요 수
+                        </div>
+                    </Footer>
+                </Block>
+            ))}
+        </>
     );
 };
 
