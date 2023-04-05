@@ -6,22 +6,22 @@ import { faker } from '@faker-js/faker';
 import { Icons } from "../../static/svg/Icons";
 
 
-function PostCard(){    
-    return(
+function PostCard() {
+    return (
 
         <Block>
-           <StyledLink>
-            <RatioImg 
-            widthRatio={1.916}
-            heightRatio={1}/>
-           </StyledLink>
-           
-           <Content>
+            <StyledLink>
+                <RatioImg
+                    widthRatio={1.916}
+                    heightRatio={1} />
+            </StyledLink>
+
+            <Content>
                 <StyledLink>
-                  <h4>제목</h4>
-                  <div className="description-wrapper">
-                    <p>ㅇㅇㅇㅇㅇㅇㅇㅇ</p>
-                  </div>
+                    <h4>제목</h4>
+                    <div className="description-wrapper">
+                        <p>ㅇㅇㅇㅇㅇㅇㅇㅇ</p>
+                    </div>
                 </StyledLink>
                 <div className="sub-info">
                     <span>날짜</span>

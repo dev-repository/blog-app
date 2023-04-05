@@ -26,7 +26,6 @@ const LoginForm = () => {
 
 
     // const newUser = JSON.parse(localStorage.getItem('newUser'));
-
     const handleLogin = () => {
         // Local Storage에서 회원가입한 정보를 가져옴
 
