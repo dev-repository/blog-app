@@ -3,26 +3,23 @@ import styled from "styled-components";
 import PostCard from "./PostCard";
 import NavBar from "../NavBar";
 
-function GraidCard(){
-    return(
+function GraidCard() {
+    return (
         <>
-        <NavBar/>
+            <NavBar />
 
-        <MarginRL>
-            <FlexMT>
-                <MainFlex>
-                    <GridCard>
-                        {Array.from({ length: 11 }).map((_, index) => (
-                            <PostCard key={`-${index}`} />
-                        ))}
-                        {/* <PostCard /> */}
-                    </GridCard>
-                </MainFlex>
-            </FlexMT>
-        </MarginRL>
-    
-    </>
-);
+            <MarginRL>
+                <FlexMT>
+                    <MainFlex>
+                        <GridCard>
+                            <PostCard />
+                        </GridCard>
+                    </MainFlex>
+                </FlexMT>
+            </MarginRL>
+
+        </>
+    );
 };
 
 
