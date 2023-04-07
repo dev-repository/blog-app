@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Button, Input } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import styled from 'styled-components';
-import WriteList from './WriteList';
+import { generateUUID } from '../../utils/utils';
+import WriteComment from './WriteComment';
 
 
 const WriteForm = () => {
-
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
     const [writeForm, setWriteForm] = useState({
         title: "",
         content: "",
         date: "",
         writer: loginWriter.userId,
-    }) //title과 date를 가지는 writeForm state생성
 
+    }) //title과 date를 가지는 writeForm state생성
     const handleWrite = (e) => {
         setWriteForm({
             ...writeForm,
@@ -22,15 +22,24 @@ const WriteForm = () => {
         })
     }
 
+    // const onEdit = (targetId, newContent) => {
+    //     setWriteForm(
+    //         writeForm.map((it) => it.id === targetId ?
+    //             { ...it, content: newContent } : it)
+    //     )
+    // }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(writeForm)
-        console.log("123");
-
+        console.log(loginWriter);
+        const id = generateUUID();
         const userWrite = localStorage.getItem('writeForm') || '[]';
         const old_write = JSON.parse(userWrite);
-        localStorage.setItem("writeForm", JSON.stringify([...old_write, writeForm]))
+        localStorage.setItem("writeForm", JSON.stringify([...old_write, {
+            ...writeForm, id: id
+        }]))
     }
+
 
     return (
         <WriteBox>
@@ -73,6 +82,7 @@ const WriteForm = () => {
                 />
             </form>
             <Button onClick={handleSubmit}>글 등록</Button>
+            <WriteComment writeForm={writeForm} />
         </WriteBox>
     )
 }
