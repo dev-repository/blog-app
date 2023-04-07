@@ -7,12 +7,12 @@ import WriteList from './WriteList';
 
 const WriteForm = () => {
 
-    // const dataId = useRef(0);
-
+    const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
     const [writeForm, setWriteForm] = useState({
         title: "",
         content: "",
         date: "",
+        writer: loginWriter.userId,
     }) //title과 date를 가지는 writeForm state생성
 
     const handleWrite = (e) => {
@@ -31,8 +31,6 @@ const WriteForm = () => {
         const old_write = JSON.parse(userWrite);
         localStorage.setItem("writeForm", JSON.stringify([...old_write, writeForm]))
     }
-    const list = JSON.parse(localStorage.getItem("writeForm") || "[]");
-    console.log(list);
 
     return (
         <WriteBox>
@@ -64,17 +62,17 @@ const WriteForm = () => {
                     value={writeForm.date}
                     onChange={handleWrite}
                 />
+                <label htmlFor='writer'>작성자 명</label>
+                <Input
+                    id='writer'
+                    type='text'
+                    name='writer'
+                    value={loginWriter.userId}
+                    onChange={handleWrite}
+                    disabled
+                />
             </form>
             <Button onClick={handleSubmit}>글 등록</Button>
-            <WriteList />
-            <div>
-                {list.map((item) => (
-                    <div key={item.title}>
-                        {item.title}
-                    </div>
-                ))}
-                {/* {writeForm.length}개 */}
-            </div>
         </WriteBox>
     )
 }
