@@ -4,7 +4,7 @@ import TextArea from 'antd/es/input/TextArea';
 import styled from 'styled-components';
 import { generateUUID } from '../../utils/utils';
 import WriteComment from './WriteComment';
-
+import { useLocation } from 'react-router-dom';
 
 const WriteForm = () => {
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
@@ -39,6 +39,18 @@ const WriteForm = () => {
             ...writeForm, id: id
         }]))
     }
+
+    // const { id } = useParams();
+
+    // useEffect(() => {
+    //     const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
+    //     const selectNumber = WriteList.find((item) => item.id === id);
+    //     console.log(WriteList.find((item) => item.id === id))
+    //     console.log(WriteList);
+    //     console.log(id);
+    //     console.log(selectNumber);
+    //     console.log(number)
+    // }, [id]);
 
 
     return (

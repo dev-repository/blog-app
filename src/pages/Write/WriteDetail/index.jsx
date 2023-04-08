@@ -4,6 +4,10 @@ import RatioImg from '../../../components/PostCard/RatioImg';
 import WriteComment from '../../../components/Form/WriteComment';
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
+import { Button } from 'antd';
+import { Link } from "react-router-dom";
+
+
 
 const WriteDetail = () => {
 
@@ -11,21 +15,8 @@ const WriteDetail = () => {
     const [number, setNumber] = useState(null);
     const comment = JSON.parse(localStorage.getItem("session"));
     // const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
-
-
-    useEffect(() => {
-        const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
-        const selectNumber = WriteList.find((item) => item.id === id);
-        console.log(WriteList.find((item) => item.id === id))
-        console.log(WriteList);
-        console.log(id);
-        setNumber(selectNumber);
-        console.log(selectNumber);
-        console.log(number)
-    }, [id]);
-
-
     return (
+
         <>
             <NavBar />
             <DetailBox>
@@ -34,23 +25,28 @@ const WriteDetail = () => {
                     heightRatio={1}
                 />
                 <DetailContent>
-                    {/* <div className='description-wrapper'>
-                        <h4>제목</h4>
-                        <div>
-                            {number.title}
+                    {number ? <>
+                        <div className='description-wrapper'>
+                            <h4>제목</h4>
+                            <div>
+                                {number.title}
+                            </div>
                         </div>
-                    </div>
-                    <div className='description-wrapper'>
-                        {number.content}
-                    </div>
-                    <div className='description-wrapper'>
-                        <span>{number.date}</span>
-                        <span>.</span>
-                        <span>개의 댓글</span>
-                    </div> */}
+                        <div className='description-wrapper'>
+                            {number.content}
+                        </div>
+                        <div className='description-wrapper'>
+                            <span>{number.date}</span>
+                            <span>.</span>
+                            <span>개의 댓글</span>
+                        </div>
+                    </> :
+                        <>null</>}
                 </DetailContent>
             </DetailBox>
-            <WriteComment {...number} />
+            <Link to={`/write/${id}`}>수정페이지 이동</Link>
+            {number ? <><WriteComment {...number} /></> : <>null</>}
+            {/* number가 무조건  null로 설정되기때문에 props로 내려서 사용할때도 삼항연산자로 체크 후에 써야함 */}
         </>
     )
 }
