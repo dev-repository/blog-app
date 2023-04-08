@@ -15,6 +15,7 @@ export default function App() {
         <Route path="Register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="write" element={<Write />} />
+        <Route path="write/:id" element={<Write />} />
         <Route path="/write/writeDetail/:id" element={<WriteDetail />} />
         <Route path="search" element={<Search />} />
         <Route path="*" element={<Error />} />
