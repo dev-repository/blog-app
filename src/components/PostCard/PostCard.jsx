@@ -10,7 +10,8 @@ import { useParams } from "react-router-dom";
 function PostCard() {
 
     const { writeId } = useParams();
-    const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
+    //배열 마지막부터 보이게함
+    const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]").reverse();
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
     console.log(loginWriter);
     console.log(WriteList[1]);
@@ -32,10 +33,12 @@ function PostCard() {
                     </StyledLink>
                     <Content>
                         <StyledLink>
-                            <h4>제목</h4>
+                            <h4>{item.title}</h4>
                             <div className="description-wrapper">
-                                <p>{item.title}</p>
-                                <p>{item.title}</p>
+                                <p>
+                                    {item.content.replace(/&#x3A;/g, ':')}
+                                    {item.content.length === 150 && '...'}
+                                </p>
                             </div>
                         </StyledLink>
                         <div className="sub-info">
@@ -46,14 +49,14 @@ function PostCard() {
                     </Content>
                     <Footer>
                         <Link className="userinfo" to={"/"}>
-                            <img src={faker.image.cats()} alt="testImg" />
+                            <img src="/imgs/user-thumbnail.png" alt="testImg" />
                             <span>
                                 by <b>{item.writer}</b>
                             </span>
                         </Link>
                         <div className="likes">
                             <Icons.LikeIcon />
-                            좋아요 수
+                           {item.likes === 0 ? null : 0 }
                         </div>
                     </Footer>
                 </Block>
