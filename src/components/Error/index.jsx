@@ -16,11 +16,19 @@ function ErrorPage(){
         <>
         <NavBar/>
             <Container>
-                <h2>해당 페이지를 찾을 수 없습니다.</h2>
-                <ErrorImg
-                    src="/src/static/images/404.jpg"
+            <img
+                    src="https://static.velog.io/static/media/undraw_page_not_found_su7k.7e3de5e9.svg"
                     alt="404 Not Found" />
-                 <BackBtn icon={<ArrowLeftOutlined />} onClick={goBack}>Back</BackBtn>
+                <div className="message">해당 페이지를 찾을 수 없습니다.</div>
+
+
+                <div className="btnWrapper" onClick={goBack}>
+                    <button className="btnCss">
+                        홈으로
+                    </button>
+                </div>
+        
+                 {/* <BackBtn icon={<ArrowLeftOutlined />} onClick={goBack}>Back</BackBtn> */}
             </Container>
         </>
     );
@@ -28,28 +36,60 @@ function ErrorPage(){
 
 const Container = styled.div`
     display: flex;
-    justify-content: center;
+    width: 100%;
+    height: 100%;
+    -webkit-box-align: center;
     align-items: center;
-    margin-top: 5rem;
-  h2{
-        z-index: 1;
-        margin-block-start: 1.33em;
-        margin-block-end: 1.33em;
-        margin-inline-start: 0px;
-        margin-inline-end: 0px;
+    -webkit-box-pack: center;
+    justify-content: center;
+    flex-direction: column;
+
+    img{
+        width: 20rem;
+        height: auto;
+       
+        @media (max-width: 768px) {
+        width: 12rem;
+        }
+    }
+
+    .message{
+        padding-left: 1rem;
+        padding-right: 1rem;
+        white-space: pre;
+        text-align: center;
+        line-height: 1.5;
+        font-size: 2.5rem;
+        color: var(--text1);
+        margin-top: 2rem;
+       
+        @media (max-width: 768px) {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+    }
+
+    .btnWrapper{
+        margin-top: 2rem;
+    }
+    .btnCss{
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
         font-weight: bold;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        background: #12B886;
+        color: #FFF;
+        border-radius: 4px;
+        padding: 0px 1.125rem;
+        height: 2.5rem;
+        font-size: 1.125rem; 
     }
 `
-const ErrorImg = styled.img`
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
-    margin-top: 50rem;
-`
-const BackBtn = styled(Button)`
-   
 
-`
 
 export default ErrorPage;
