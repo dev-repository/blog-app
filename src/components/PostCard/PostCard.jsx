@@ -1,26 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import RatioImg from "./RatioImg";
 import { faker } from '@faker-js/faker';
 import { Icons } from "../../static/svg/Icons";
+import { useParams } from "react-router-dom";
 
 
 function PostCard() {
 
+    const { writeId } = useParams();
     const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
     console.log(loginWriter);
-    console.log(WriteList);
+    console.log(WriteList[1]);
+
+
     return (
         <>
             {WriteList.map((item, index) => (
-                <Block key={index}>
+                <Block key={index} onClick={() => handleWriteClick(index)}>
                     <StyledLink>
-                        <Link to={`/write/writeDetail/${index}`}>
+                        <Link to={`/write/writeDetail/${item.id}`}>
+                            {/* index +1 이런식으로 코드짜도 되는지 질문 */}
                             <RatioImg
                                 widthRatio={1.916}
-                                heightRatio={1} />
+                                heightRatio={1}
+                            >
+                            </RatioImg>
                         </Link>
                     </StyledLink>
                     <Content>
