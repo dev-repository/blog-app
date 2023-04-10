@@ -4,8 +4,8 @@ import RatioImg from '../../../components/PostCard/RatioImg';
 import WriteComment from '../../../components/Form/WriteComment';
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
-import { Button } from 'antd';
 import { Link } from "react-router-dom";
+import { Input, Button } from 'antd';
 
 
 
@@ -15,6 +15,37 @@ const WriteDetail = () => {
     const [number, setNumber] = useState(null);
     const comment = JSON.parse(localStorage.getItem("session"));
     // const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
+    const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
+
+    const [comments, setComments] = useState({
+        id: "",
+        comments: "",
+        userId: loginWriter.userId,
+    })
+
+    useEffect(() => {
+        const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
+        const selectNumber = WriteList.find((item) => item.id === id);
+        console.log(WriteList.find((item) => item.id === id))
+        console.log(WriteList);
+        console.log(id);
+        setNumber(selectNumber);
+        console.log(selectNumber);
+        console.log(number)
+    }, [id]);
+
+    const handleDelete = () => {
+        console.log("삭제")
+    }
+    const submit = () => {
+        const OldComment = localStorage.getItem('comments') || '[]';
+        localStorage.setItem("comments", JSON.stringify([{
+            id: id,
+            comments: comments,
+            userId: loginWriter.userId
+        }]));
+    }
+
     return (
 
         <>
@@ -27,26 +58,37 @@ const WriteDetail = () => {
                 <DetailContent>
                     {number ? <>
                         <div className='description-wrapper'>
-                            <h4>제목</h4>
+                            <h3>제목</h3>
                             <div>
                                 {number.title}
                             </div>
                         </div>
                         <div className='description-wrapper'>
-                            {number.content}
+                            <h3>내용</h3>
+                            <div>
+                                {number.content}
+                            </div>
                         </div>
                         <div className='description-wrapper'>
+                            <h3>날짜</h3>
                             <span>{number.date}</span>
-                            <span>.</span>
-                            <span>개의 댓글</span>
                         </div>
+                        <p>
+                            <Link to={`/write/${id}`}>수정페이지 이동</Link>
+                            <button onClick={handleDelete}>수정페이지 삭제</button>
+                        </p>
                     </> :
-                        <>null</>}
+                        <>
+                            null
+                        </>
+                    }
+                    <Input
+                        value={comments}
+                        onChange={(e) => setComments(e.target.value)}
+                    />
+                    <Button onClick={submit}>댓글</Button>
                 </DetailContent>
             </DetailBox>
-            <Link to={`/write/${id}`}>수정페이지 이동</Link>
-            {number ? <><WriteComment {...number} /></> : <>null</>}
-            {/* number가 무조건  null로 설정되기때문에 props로 내려서 사용할때도 삼항연산자로 체크 후에 써야함 */}
         </>
     )
 }
@@ -59,7 +101,9 @@ display: flex;
 const DetailContent = styled.div`
 width: 50%;
     .description-wrapper{
-        display: flex;
-     background-color: red;
+        margin-left: 10px;
+        div{
+            margin-left: 10px;
+        }
     }   
 `

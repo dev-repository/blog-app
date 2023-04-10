@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Button, Input } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import styled from 'styled-components';
 import { generateUUID } from '../../utils/utils';
 import WriteComment from './WriteComment';
 import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const WriteForm = () => {
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
@@ -15,6 +16,16 @@ const WriteForm = () => {
         writer: loginWriter.userId,
 
     }) //title과 date를 가지는 writeForm state생성
+
+    const [data, setData] = useState(null); //수정state 생성
+
+    const editHandleWrite = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value,
+        })
+    }
+
     const handleWrite = (e) => {
         setWriteForm({
             ...writeForm,
@@ -22,12 +33,16 @@ const WriteForm = () => {
         })
     }
 
-    // const onEdit = (targetId, newContent) => {
-    //     setWriteForm(
-    //         writeForm.map((it) => it.id === targetId ?
-    //             { ...it, content: newContent } : it)
-    //     )
-    // }
+    const editHandleSubmit = (e) => {
+        e.preventDefault();
+        const items = localStorage.getItem('writeForm');
+        console.log(items);
+        const old_write = JSON.parse(items);
+        console.log(old_write);
+
+        localStorage.setItem("writeForm", JSON.stringify(
+            [...old_write]))
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -40,61 +55,100 @@ const WriteForm = () => {
         }]))
     }
 
-    // const { id } = useParams();
 
-    // useEffect(() => {
-    //     const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
-    //     const selectNumber = WriteList.find((item) => item.id === id);
-    //     console.log(WriteList.find((item) => item.id === id))
-    //     console.log(WriteList);
-    //     console.log(id);
-    //     console.log(selectNumber);
-    //     console.log(number)
-    // }, [id]);
+    const { id } = useParams();
+
+    useEffect(() => {
+        const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
+        const selectNumber = WriteList.find((item) => item.id === id);
+        setData(selectNumber)
+    }, [id]);
 
 
     return (
         <WriteBox>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor='title'>글 제목</label>
-                <Input
-                    id='title'
-                    type='text'
-                    name='title'
-                    placeholder='글제목'
-                    value={writeForm.title}
-                    onChange={handleWrite}
-                />
-                <label htmlFor='content'>글 내용</label>
-                <TextArea
-                    id='content'
-                    name='content'
-                    rows={4}
-                    placeholder="maxLength is 6"
-                    maxLength={6}
-                    value={writeForm.content}
-                    onChange={handleWrite}
-                />
-                <label htmlFor='date'>글 작성일자</label>
-                <Input
-                    id='date'
-                    type='date'
-                    name='date'
-                    value={writeForm.date}
-                    onChange={handleWrite}
-                />
-                <label htmlFor='writer'>작성자 명</label>
-                <Input
-                    id='writer'
-                    type='text'
-                    name='writer'
-                    value={loginWriter.userId}
-                    onChange={handleWrite}
-                    disabled
-                />
-            </form>
-            <Button onClick={handleSubmit}>글 등록</Button>
-            <WriteComment writeForm={writeForm} />
+            {data ? <>
+                <form onSubmit={editHandleSubmit}>
+                    <label htmlFor='title'>글 제목</label>
+                    <Input
+                        id='title'
+                        type='text'
+                        name='title'
+                        placeholder='글제목'
+                        value={data.title}
+                        onChange={editHandleWrite}
+                    />
+                    <label htmlFor='content'>글 내용</label>
+                    <TextArea
+                        id='content'
+                        name='content'
+                        rows={4}
+                        placeholder="maxLength is 6"
+                        maxLength={6}
+                        value={data.content}
+                        onChange={editHandleWrite}
+                    />
+                    <label htmlFor='date'>글 작성일자</label>
+                    <Input
+                        id='date'
+                        type='date'
+                        name='date'
+                        value={data.date}
+                        onChange={editHandleWrite}
+                    />
+                    <label htmlFor='writer'>작성자 명</label>
+                    <Input
+                        id='writer'
+                        type='text'
+                        name='writer'
+                        value={loginWriter.userId}
+                        onChange={editHandleWrite}
+                        disabled
+                    />
+                </form>
+                <Button onClick={editHandleSubmit}>글 등록</Button>
+            </> : <>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor='title'>글 제목</label>
+                    <Input
+                        id='title'
+                        type='text'
+                        name='title'
+                        placeholder='글제목'
+                        value={writeForm.title}
+                        onChange={handleWrite}
+                    />
+                    <label htmlFor='content'>글 내용</label>
+                    <TextArea
+                        id='content'
+                        name='content'
+                        rows={4}
+                        placeholder="maxLength is 6"
+                        maxLength={6}
+                        value={writeForm.content}
+                        onChange={handleWrite}
+                    />
+                    <label htmlFor='date'>글 작성일자</label>
+                    <Input
+                        id='date'
+                        type='date'
+                        name='date'
+                        value={writeForm.date}
+                        onChange={handleWrite}
+                    />
+                    <label htmlFor='writer'>작성자 명</label>
+                    <Input
+                        id='writer'
+                        type='text'
+                        name='writer'
+                        value={loginWriter.userId}
+                        onChange={handleWrite}
+                        disabled
+                    />
+                </form>
+                <Button onClick={handleSubmit}>글 등록</Button>
+            </>}
+            {/* <WriteComment writeForm={writeForm} /> */}
         </WriteBox>
     )
 }
