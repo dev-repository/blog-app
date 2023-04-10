@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { Input, Button } from 'antd';
+import { generateUUID } from '../../../utils/utils';
+import moment from 'moment';
 
 
 
@@ -13,39 +15,47 @@ const WriteDetail = () => {
 
     const { id } = useParams();
     const [number, setNumber] = useState(null);
-    const comment = JSON.parse(localStorage.getItem("session"));
+    const loginUser = JSON.parse(localStorage.getItem("session"));
+    const comment_date = moment().format('YYYYMMDD');
+    const mList = JSON.parse(localStorage.getItem("comments") || "[]");
     // const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
+    const [ment, setMent] = useState({
+        id: '',
+        comment: '',
+        userId: loginUser.userId,
 
-    const [comments, setComments] = useState({
-        id: "",
-        comments: "",
-        userId: loginWriter.userId,
     })
 
     useEffect(() => {
         const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
         const selectNumber = WriteList.find((item) => item.id === id);
-        console.log(WriteList.find((item) => item.id === id))
-        console.log(WriteList);
-        console.log(id);
         setNumber(selectNumber);
-        console.log(selectNumber);
-        console.log(number)
     }, [id]);
 
     const handleDelete = () => {
-        console.log("삭제")
+        const old = localStorage.getItem("writeForm") || '[]';
+        const old_delete = JSON.parse(old);
+        localStorage.setItem("writeForm", JSON.stringify(
+            [...old_delete].filter((item) => item.id !== id)
+            //배열 돌면서 id가 해당id값이 아닌요소들만 배열에 다시 추가됨
+        ))
     }
     const submit = () => {
         const OldComment = localStorage.getItem('comments') || '[]';
-        localStorage.setItem("comments", JSON.stringify([{
+        const old_comment = JSON.parse(OldComment);
+        const postId = generateUUID();
+        localStorage.setItem("comments", JSON.stringify([...old_comment,
+        {
             id: id,
-            comments: comments,
-            userId: loginWriter.userId
-        }]));
+            comment: ment,
+            userId: loginWriter.userId,
+            postId: postId,
+            comment_date: comment_date,
+        }
+        ]));
+        window.location.reload();
     }
-
     return (
 
         <>
@@ -82,13 +92,38 @@ const WriteDetail = () => {
                             null
                         </>
                     }
-                    <Input
-                        value={comments}
-                        onChange={(e) => setComments(e.target.value)}
-                    />
-                    <Button onClick={submit}>댓글</Button>
+                    <div>
+                        <div>
+                            <div className='coment'>
+                                <h4>댓글</h4>
+                                <h4>작성날짜</h4>
+                            </div>
+                            {mList ? (
+                                mList.map((item, index) => (
+                                    <div key={index} className='coment'>
+                                        <span>
+                                            {item.comment}
+                                        </span>
+                                        <span>
+                                            {item.comment_date}
+                                        </span>
+                                    </div>
+                                ))
+                            ) : (
+                                <p></p>
+                            )
+                            }
+                        </div>
+                        <div>
+                            <Input
+                                value={ment.coment}
+                                onChange={(e) => setMent(e.target.value)}
+                            />
+                            <Button onClick={submit}>댓글</Button>
+                        </div>
+                    </div>
                 </DetailContent>
-            </DetailBox>
+            </DetailBox >
         </>
     )
 }
@@ -106,4 +141,9 @@ width: 50%;
             margin-left: 10px;
         }
     }   
+    .coment{
+        padding: 0 40px;
+        display:flex;
+        justify-content: space-between;
+    }
 `

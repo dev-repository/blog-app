@@ -3,9 +3,8 @@ import { Button, Input } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import styled from 'styled-components';
 import { generateUUID } from '../../utils/utils';
-import WriteComment from './WriteComment';
-import { useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const WriteForm = () => {
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
@@ -18,6 +17,10 @@ const WriteForm = () => {
     }) //title과 date를 가지는 writeForm state생성
 
     const [data, setData] = useState(null); //수정state 생성
+    const homeNavi = useNavigate();
+    const navHome = () => {
+        homeNavi('/');
+    }
 
     const editHandleWrite = (e) => {
         setData({
@@ -41,18 +44,31 @@ const WriteForm = () => {
         console.log(old_write);
 
         localStorage.setItem("writeForm", JSON.stringify(
-            [...old_write]))
+            [...old_write].map((item) => {
+                console.log(item);
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        title: data.title,
+                        content: data.content,
+                        date: data.date
+                    }
+                }
+                return item
+            })))
+        navHome();
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(loginWriter);
         const id = generateUUID();
         const userWrite = localStorage.getItem('writeForm') || '[]';
         const old_write = JSON.parse(userWrite);
         localStorage.setItem("writeForm", JSON.stringify([...old_write, {
             ...writeForm, id: id
         }]))
+
+        navHome();
     }
 
 
@@ -84,7 +100,7 @@ const WriteForm = () => {
                         name='content'
                         rows={4}
                         placeholder="maxLength is 6"
-                        maxLength={6}
+                        maxLength={100}
                         value={data.content}
                         onChange={editHandleWrite}
                     />
@@ -115,7 +131,6 @@ const WriteForm = () => {
                         type='text'
                         name='title'
                         placeholder='글제목'
-                        value={writeForm.title}
                         onChange={handleWrite}
                     />
                     <label htmlFor='content'>글 내용</label>
@@ -124,8 +139,7 @@ const WriteForm = () => {
                         name='content'
                         rows={4}
                         placeholder="maxLength is 6"
-                        maxLength={6}
-                        value={writeForm.content}
+                        maxLength={100}
                         onChange={handleWrite}
                     />
                     <label htmlFor='date'>글 작성일자</label>
@@ -133,7 +147,6 @@ const WriteForm = () => {
                         id='date'
                         type='date'
                         name='date'
-                        value={writeForm.date}
                         onChange={handleWrite}
                     />
                     <label htmlFor='writer'>작성자 명</label>
@@ -156,6 +169,10 @@ const WriteForm = () => {
 export default WriteForm
 
 const WriteBox = styled.div`
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 width: 1000px;
 height: 700px;
 background: #f1f1f1;

@@ -4,7 +4,6 @@ import WriteForm from '../../components/Form/Write'
 const Write = () => {
     return (
         <div>
-            Write
             <WriteForm />
         </div>
     )

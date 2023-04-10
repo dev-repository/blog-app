@@ -7,21 +7,11 @@ const LoginForm = () => {
 
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
-    const [loggedIn, setLoggedIn] = useState(false);
 
     const navigate = useNavigate();
-    const writingRegister = useNavigate();
-    const homeNavi = useNavigate();
 
     const useNavi = () => {
         navigate('/register');
-    }
-    const writeRegister = () => {
-        writingRegister('/write')
-    }
-
-    const HomeNavigate = () => {
-        homeNavi('/');
     }
 
 
@@ -31,7 +21,6 @@ const LoginForm = () => {
 
         const usersString = localStorage.getItem("users") || "[]";
         const old_users = JSON.parse(usersString);
-        console.log(old_users);
 
         const user = old_users.find(
             (user) => user.userId === userId && user.password === password
@@ -42,7 +31,6 @@ const LoginForm = () => {
             setLoggedIn(true);
             const postsString = localStorage.getItem("posts") || "[]";
             const old_posts = JSON.parse(postsString);
-            console.log("????", old_posts);
             localStorage.setItem(
                 "posts",
                 JSON.stringify([
@@ -84,10 +72,6 @@ const LoginForm = () => {
                     회원가입
                 </Button>
             </div>
-            {loggedIn ? HomeNavigate() : <div>로그인안되었음</div>}
-            <Button onClick={writeRegister}>
-                등록페이지 이동
-            </Button>
         </BackForm>
     )
 }
