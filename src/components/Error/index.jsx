@@ -24,7 +24,7 @@ function ErrorPage(){
 
                 <div className="btnWrapper" onClick={goBack}>
                     <button className="btnCss">
-                        홈으로
+                        뒤로가기
                     </button>
                 </div>
         
