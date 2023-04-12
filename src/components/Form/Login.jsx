@@ -9,9 +9,12 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
-
     const useNavi = () => {
         navigate('/register');
+    }
+    const homeNavi = useNavigate();
+    const naviHome = () => {
+        homeNavi('/');
     }
 
 
@@ -28,7 +31,6 @@ const LoginForm = () => {
 
         if (user) { //위 조건이 다 맞으면 session을생성하고 조건에 맞았던 데이터를 json.stringify에 넣음
             localStorage.setItem("session", JSON.stringify(user));
-            setLoggedIn(true);
             const postsString = localStorage.getItem("posts") || "[]";
             const old_posts = JSON.parse(postsString);
             localStorage.setItem(
@@ -43,6 +45,7 @@ const LoginForm = () => {
                     },
                 ])
             );
+            naviHome();
         } else {
             alert("로그인 실패");
         }

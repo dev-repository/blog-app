@@ -39,13 +39,10 @@ const WriteForm = () => {
     const editHandleSubmit = (e) => {
         e.preventDefault();
         const items = localStorage.getItem('writeForm');
-        console.log(items);
         const old_write = JSON.parse(items);
-        console.log(old_write);
 
         localStorage.setItem("writeForm", JSON.stringify(
             [...old_write].map((item) => {
-                console.log(item);
                 if (item.id === id) {
                     return {
                         ...item,

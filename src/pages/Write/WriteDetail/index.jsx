@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import NavBar from '../../../components/NavBar'
 import RatioImg from '../../../components/PostCard/RatioImg';
-import WriteComment from '../../../components/Form/WriteComment';
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { Input, Button } from 'antd';
 import { generateUUID } from '../../../utils/utils';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -16,30 +16,36 @@ const WriteDetail = () => {
     const { id } = useParams();
     const [number, setNumber] = useState(null);
     const loginUser = JSON.parse(localStorage.getItem("session"));
-    const comment_date = moment().format('YYYYMMDD');
+    const comment_date = moment().format('YYYY년MM월DD일');
     const mList = JSON.parse(localStorage.getItem("comments") || "[]");
-    // const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
     const [ment, setMent] = useState({
         id: '',
         comment: '',
-        userId: loginUser.userId,
+        userId: '',
 
     })
-
+    const naviHome = useNavigate();
+    const homeNavi = () => {
+        naviHome('/');
+    }
     useEffect(() => {
         const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
         const selectNumber = WriteList.find((item) => item.id === id);
         setNumber(selectNumber);
     }, [id]);
-
     const handleDelete = () => {
-        const old = localStorage.getItem("writeForm") || '[]';
-        const old_delete = JSON.parse(old);
-        localStorage.setItem("writeForm", JSON.stringify(
-            [...old_delete].filter((item) => item.id !== id)
-            //배열 돌면서 id가 해당id값이 아닌요소들만 배열에 다시 추가됨
-        ))
+        const confirm = window.confirm('해당 글을 삭제하시겠습니까?');
+        if (confirm) {
+            const old = localStorage.getItem("writeForm") || '[]';
+            const old_delete = JSON.parse(old);
+            localStorage.setItem("writeForm", JSON.stringify(
+                [...old_delete].filter((item) => item.id !== id)
+                //배열 돌면서 id가 해당id값이 아닌요소들만 배열에 다시 추가됨
+            ))
+            alert("삭제완료");
+            homeNavi();
+        }
     }
     const submit = () => {
         const OldComment = localStorage.getItem('comments') || '[]';
@@ -83,13 +89,19 @@ const WriteDetail = () => {
                             <h3>날짜</h3>
                             <span>{number.date}</span>
                         </div>
-                        <p>
-                            <Link to={`/write/${id}`}>수정페이지 이동</Link>
-                            <button onClick={handleDelete}>수정페이지 삭제</button>
-                        </p>
                     </> :
                         <>
                             null
+                        </>
+                    }
+                    {loginUser ?
+                        <>
+                            <p>
+                                <Link to={`/write/${id}`}>수정페이지 이동</Link>
+                                <button onClick={handleDelete}>수정페이지 삭제</button>
+                            </p>
+                        </> :
+                        <>
                         </>
                     }
                     <div>
@@ -98,29 +110,35 @@ const WriteDetail = () => {
                                 <h4>댓글</h4>
                                 <h4>작성날짜</h4>
                             </div>
-                            {mList ? (
-                                mList.map((item, index) => (
-                                    <div key={index} className='coment'>
-                                        <span>
+                            <div className='comentList'>
+                                {mList.map((item, index) =>
+                                    item.id === id ? <div>
+                                        <span key={index}>
                                             {item.comment}
                                         </span>
                                         <span>
                                             {item.comment_date}
                                         </span>
                                     </div>
-                                ))
-                            ) : (
-                                <p></p>
-                            )
-                            }
+                                        :
+                                        <span>
+
+                                        </span>
+                                )}
+                            </div>
                         </div>
-                        <div>
-                            <Input
-                                value={ment.coment}
-                                onChange={(e) => setMent(e.target.value)}
-                            />
-                            <Button onClick={submit}>댓글</Button>
-                        </div>
+                        {loginUser ? <>
+                            <div className='comentInput'>
+                                <Input
+                                    value={ment.comment}
+                                    onChange={(e) => setMent(e.target.value)}
+                                />
+                                <Button onClick={submit}>댓글</Button>
+                            </div>
+                        </> : <>
+
+                        </>}
+
                     </div>
                 </DetailContent>
             </DetailBox >
@@ -134,6 +152,7 @@ const DetailBox = styled.div`
 display: flex;
 `
 const DetailContent = styled.div`
+position: relative;
 width: 50%;
     .description-wrapper{
         margin-left: 10px;
@@ -145,5 +164,18 @@ width: 50%;
         padding: 0 40px;
         display:flex;
         justify-content: space-between;
+    }
+    .comentList{
+        div{
+            display: flex;
+            padding: 0 40px;
+            margin: 10px 0;
+            justify-content: space-between;
+        }
+    }
+    .comentInput{
+        display: flex;
+        position: absolute;
+        bottom: 0;
     }
 `
