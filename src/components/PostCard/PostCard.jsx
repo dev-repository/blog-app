@@ -56,7 +56,7 @@ function PostCard() {
                         </Link>
                         <div className="likes">
                             <Icons.LikeIcon />
-                            {item.likes === 0 ? null : 0}
+                           {item.likes === 0 ? null : 0 }
                         </div>
                     </Footer>
                 </Block>

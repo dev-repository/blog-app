@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from 'styled-components';
 import { Icons } from "../../static/svg/Icons";
 import NavBar from "../NavBar";
+import FlatPostCardList from "./FlatPostCardList";
 
 
 function SearchForm(){
@@ -16,8 +17,14 @@ function SearchForm(){
                             placeholder="검색어를 입력하세요"
                             type="text" />
                     </SearchBlock>
+
+                    <Info>
+                        
+                        총 <b> 개</b>의 포스트를 찾았습니다.
+                    </Info>
+
+                    <FlatPostCardList />
                 </SearchLine>
-       
         </>
     );
 };
@@ -94,6 +101,20 @@ const SearchBlock = styled.div`
                 height: auto;
             }
         }
+`
+
+const Info = styled.p`
+    margin-bottom: 4rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    @media (max-width: 768px) {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    color: #495057;
+    b {
+        color: #212529;
+    }
 `
 
 export default SearchForm;
