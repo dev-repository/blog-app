@@ -6,7 +6,6 @@ import { Icons } from "../../static/svg/Icons";
 
 function FlatPostCard(props){
     const Detail =`/write/writeDetail/${props.i.id}`
-    
     return(
             <PostCardBlock>
                 <div className="user-info">

@@ -12,55 +12,65 @@ function PostCard() {
     const { writeId } = useParams();
     //배열 마지막부터 보이게함
     const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]").reverse();
-    const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
-    console.log(loginWriter);
-    console.log(WriteList[1]);
+    const comen = JSON.parse(localStorage.getItem("comments") || "[]");
+    console.log(comen);
+    console.log(WriteList);
+
+    const bb = comen.map((i) => i.postId);
+    console.log(bb);
+
+
 
 
     return (
         <>
-            {WriteList.map((item, index) => (
-                <Block key={index} onClick={() => handleWriteClick(index)}>
-                    <StyledLink>
-                        <Link to={`/write/writeDetail/${item.id}`}>
-                            {/* index +1 이런식으로 코드짜도 되는지 질문 */}
-                            <RatioImg
-                                widthRatio={1.916}
-                                heightRatio={1}
-                            >
-                            </RatioImg>
-                        </Link>
-                    </StyledLink>
-                    <Content>
+            {WriteList.map((item, index) => {
+                const coments = comen.filter(i => i.postId === item.id)
+                return (
+                    <Block key={index} onClick={() => handleWriteClick(index)}>
                         <StyledLink>
-                            <h4>{item.title}</h4>
-                            <div className="description-wrapper">
-                                <p>
-                                    {item.content.replace(/&#x3A;/g, ':')}
-                                    {item.content.length === 150 && '...'}
-                                </p>
-                            </div>
+                            <Link to={`/write/writeDetail/${item.id}`}>
+                                {/* index +1 이런식으로 코드짜도 되는지 질문 */}
+                                <RatioImg
+                                    widthRatio={1.916}
+                                    heightRatio={1}
+                                >
+                                </RatioImg>
+                            </Link>
                         </StyledLink>
-                        <div className="sub-info">
-                            <span>{item.date}</span>
-                            <span className="separator">·</span>
-                            <span>개의 댓글</span>
-                        </div>
-                    </Content>
-                    <Footer>
-                        <Link className="userinfo" to={"/"}>
-                            <img src="/imgs/user-thumbnail.png" alt="testImg" />
-                            <span>
-                                by <b>{item.writer}</b>
-                            </span>
-                        </Link>
-                        <div className="likes">
-                            <Icons.LikeIcon />
-                           {item.likes === 0 ? null : 0 }
-                        </div>
-                    </Footer>
-                </Block>
-            ))}
+                        <Content>
+                            <StyledLink>
+                                <h4>{item.title}</h4>
+                                <div className="description-wrapper">
+                                    <p>
+                                        {item.content.replace(/&#x3A;/g, ':')}
+                                        {item.content.length === 150 && '...'}
+                                    </p>
+                                </div>
+                            </StyledLink>
+                            <div className="sub-info">
+                                <span>{item.date}</span>
+                                <span className="separator">·</span>
+                                <span>
+                                    {coments.length}
+                                    개의 댓글</span>
+                            </div>
+                        </Content>
+                        <Footer>
+                            <Link className="userinfo" to={"/"}>
+                                <img src="/imgs/user-thumbnail.png" alt="testImg" />
+                                <span>
+                                    by <b>{item.writer}</b>
+                                </span>
+                            </Link>
+                            <div className="likes">
+                                <Icons.LikeIcon />
+                                {item.likes === 0 ? null : 0}
+                            </div>
+                        </Footer>
+                    </Block>
+                )
+            })}
         </>
     );
 };

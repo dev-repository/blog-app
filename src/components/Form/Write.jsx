@@ -7,13 +7,16 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const WriteForm = () => {
+
+    const authorInput = useRef();
+    const contentInput = useRef();
+    const dateInput = useRef();
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
     const [writeForm, setWriteForm] = useState({
         title: "",
         content: "",
-        date: "",
+        date: null,
         writer: loginWriter.userId,
-
     }) //title과 date를 가지는 writeForm state생성
 
     const [data, setData] = useState(null); //수정state 생성
@@ -40,7 +43,6 @@ const WriteForm = () => {
         e.preventDefault();
         const items = localStorage.getItem('writeForm');
         const old_write = JSON.parse(items);
-
         localStorage.setItem("writeForm", JSON.stringify(
             [...old_write].map((item) => {
                 if (item.id === id) {
@@ -51,13 +53,25 @@ const WriteForm = () => {
                         date: data.date
                     }
                 }
-                return item
+                return item;
             })))
         navHome();
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (writeForm.title.length < 3) { //제목이 3글자보다 적으면 focus를 취한다
+            authorInput.current.focus();
+            return;
+        }
+        if (writeForm.content.length < 5) {
+            contentInput.current.focus();
+            return;
+        }
+        if (writeForm.date === null) {
+            dateInput.current.focus();
+            return;
+        }
         const id = generateUUID();
         const userWrite = localStorage.getItem('writeForm') || '[]';
         const old_write = JSON.parse(userWrite);
@@ -84,6 +98,7 @@ const WriteForm = () => {
                 <form onSubmit={editHandleSubmit}>
                     <label htmlFor='title'>글 제목</label>
                     <Input
+                        ref={authorInput}
                         id='title'
                         type='text'
                         name='title'
@@ -93,6 +108,7 @@ const WriteForm = () => {
                     />
                     <label htmlFor='content'>글 내용</label>
                     <TextArea
+                        ref={contentInput}
                         id='content'
                         name='content'
                         rows={4}
@@ -103,6 +119,7 @@ const WriteForm = () => {
                     />
                     <label htmlFor='date'>글 작성일자</label>
                     <Input
+                        ref={dateInput}
                         id='date'
                         type='date'
                         name='date'
@@ -124,6 +141,7 @@ const WriteForm = () => {
                 <form onSubmit={handleSubmit}>
                     <label htmlFor='title'>글 제목</label>
                     <Input
+                        ref={authorInput}
                         id='title'
                         type='text'
                         name='title'
@@ -132,6 +150,7 @@ const WriteForm = () => {
                     />
                     <label htmlFor='content'>글 내용</label>
                     <TextArea
+                        ref={contentInput}
                         id='content'
                         name='content'
                         rows={4}
@@ -141,6 +160,7 @@ const WriteForm = () => {
                     />
                     <label htmlFor='date'>글 작성일자</label>
                     <Input
+                        ref={dateInput}
                         id='date'
                         type='date'
                         name='date'
