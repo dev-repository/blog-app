@@ -32,19 +32,19 @@ const LoginForm = () => {
         if (user) { //위 조건이 다 맞으면 session을생성하고 조건에 맞았던 데이터를 json.stringify에 넣음
             localStorage.setItem("session", JSON.stringify(user));
             const postsString = localStorage.getItem("posts") || "[]";
-            const old_posts = JSON.parse(postsString);
-            localStorage.setItem(
-                "posts",
-                JSON.stringify([
-                    ...old_posts,
-                    {
-                        userId: user.userId,
-                        title: "123",
-                        content: "123",
-                        likes: 0,
-                    },
-                ])
-            );
+            // const old_posts = JSON.parse(postsString);
+            // localStorage.setItem(
+            //     "posts",
+            //     JSON.stringify([
+            //         ...old_posts,
+            //         {
+            //             userId: user.userId,
+            //             title: "123",
+            //             content: "123",
+            //             likes: 0,
+            //         },
+            //     ])
+            // );
             naviHome();
         } else {
             alert("로그인 실패");
