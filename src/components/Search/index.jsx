@@ -1,11 +1,17 @@
-import React from "react";
-import styled, { css } from 'styled-components';
+import React,{ useState } from "react";
+import styled from 'styled-components';
 import { Icons } from "../../static/svg/Icons";
 import NavBar from "../NavBar";
 import FlatPostCardList from "./FlatPostCardList";
 
 
 function SearchForm(){
+    const title = JSON.parse(localStorage.getItem("writeForm") || "[]");
+    const [teyword, setKeyword ] = useState('');
+    
+    //검색 count 생성 
+    const count = title.filter(i => i.title === teyword); 
+   
     return(
         <>
             <NavBar />
@@ -13,18 +19,35 @@ function SearchForm(){
                 <SearchLine>
                     <SearchBlock>
                         <Icons.SearchIcon/>
-                        <input 
+                        <input
+                            onChange={(e)=> {
+                                setKeyword(e.target.value)
+                            }}
                             placeholder="검색어를 입력하세요"
                             type="text" />
                     </SearchBlock>
 
-                    <Info>
-                        
-                        총 <b> 개</b>의 포스트를 찾았습니다.
-                    </Info>
-
-                    <FlatPostCardList />
-                </SearchLine>
+                    {teyword ? (
+                        // 두개이상 감싸면 태그는 반드시 코드블록을 감싸줘야한다.
+                        <>
+                            {count.length === 0 ? (
+                                <Info>
+                                    검색 결과가 없습니다.
+                                </Info>
+                            ): (
+                                <>
+                                    <Info>
+                                        총 <b> {count.length}개</b>의 포스트를 찾았습니다.
+                                    </Info>
+                                    <FlatPostCardList count={count} />
+                               </>
+                            )}
+                        </>
+                    ) : (
+                        <Info>
+                        </Info>
+                    )}
+            </SearchLine>
         </>
     );
 };

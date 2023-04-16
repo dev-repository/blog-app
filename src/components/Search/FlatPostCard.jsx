@@ -4,41 +4,43 @@ import { Link } from 'react-router-dom';
 import RatioImg from "../PostCard/RatioImg";
 import { Icons } from "../../static/svg/Icons";
 
-function FlatPostCard(){
+function FlatPostCard(props){
+    const Detail =`/write/writeDetail/${props.i.id}`
+    
     return(
-        <PostCardBlock>
-            <div className="user-info">
-                <img 
-                    src="/imgs/user-thumbnail.png" 
-                    alt="userIcon" />
-          
-                <div className="username">
-                    username
-                </div>           
-             </div>
-            <Link>
-                <RatioImg 
-                    className="post-thumbnail"
-                    alt="post-thumbnail"
-                    widthRatio={1.91}
-                    heightRatio={1}
-                />
-            </Link>
-            <Link>
-                <h2>글 제목</h2>
-            </Link>
-            <p>내용</p>
-            <div className="subinfo">
-                <span>날짜</span>
-                <div className="separator">·</div>
-                <span>개의 댓글</span>
-                <div className="separator">·</div>
-                <span className="likes">
-                    <Icons.LikeIcon />
-                    0
-                </span>
-            </div>
-        </PostCardBlock>
+            <PostCardBlock>
+                <div className="user-info">
+                    <img 
+                        src="/imgs/user-thumbnail.png" 
+                        alt="userIcon" />
+            
+                    <div className="username">
+                        {props.i.writer}
+                    </div>           
+                </div>
+                <Link to={Detail}>
+                    <RatioImg 
+                        className="post-thumbnail"
+                        alt="post-thumbnail"
+                        widthRatio={1.91}
+                        heightRatio={1}
+                    />
+                </Link>
+                <Link to={Detail}>
+                    <h2>{props.i.title}</h2>
+                </Link>
+                <p>{props.i.content}</p>
+                <div className="subinfo">
+                    <span>{props.i.date}</span>
+                    <div className="separator">·</div>
+                    <span>개의 댓글</span>
+                    <div className="separator">·</div>
+                    <span className="likes">
+                        <Icons.LikeIcon />
+                        0
+                    </span>
+                </div>
+            </PostCardBlock>
     );
 };
 
