@@ -16,6 +16,9 @@ const WriteDetail = () => {
     const { id } = useParams();
     const [number, setNumber] = useState(null);
     const loginUser = JSON.parse(localStorage.getItem("session"));
+    const login = JSON.parse(localStorage.getItem("writeForm"));
+    console.log(login);
+    console.log(loginUser.userId);
     const comment_date = moment().format('YYYY년MM월DD일');
     const mList = JSON.parse(localStorage.getItem("comments") || "[]");
     const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
@@ -23,7 +26,6 @@ const WriteDetail = () => {
         id: '',
         comment: '',
         userId: '',
-
     })
     const naviHome = useNavigate();
     const homeNavi = () => {
@@ -34,6 +36,8 @@ const WriteDetail = () => {
         const selectNumber = WriteList.find((item) => item.id === id);
         setNumber(selectNumber);
     }, [id]);
+    console.log(number);
+
     const handleDelete = () => {
         const confirm = window.confirm('해당 글을 삭제하시겠습니까?');
         if (confirm) {
@@ -53,17 +57,16 @@ const WriteDetail = () => {
         const postId = generateUUID();
         localStorage.setItem("comments", JSON.stringify([...old_comment,
         {
-            id: id,
+            id: postId,
             comment: ment,
             userId: loginWriter.userId,
-            postId: postId,
+            postId: id,
             comment_date: comment_date,
         }
         ]));
         window.location.reload();
     }
     return (
-
         <>
             <NavBar />
             <DetailBox>
@@ -94,7 +97,8 @@ const WriteDetail = () => {
                             null
                         </>
                     }
-                    {loginUser ?
+                    {/* ?를쓰게되면 null이나 undefined를 비교할수있게함 */}
+                    {loginUser.userId === number?.writer ?
                         <>
                             <p>
                                 <Link to={`/write/${id}`}>수정페이지 이동</Link>
@@ -108,22 +112,26 @@ const WriteDetail = () => {
                         <div>
                             <div className='coment'>
                                 <h4>댓글</h4>
+                                <h4>작성자</h4>
                                 <h4>작성날짜</h4>
                             </div>
                             <div className='comentList'>
-                                {mList.map((item, index) =>
-                                    item.id === id ? <div>
-                                        <span key={index}>
+                                {mList.map((item) =>
+                                    item.postId === id ? <div key={item.id}>
+                                        <span>
                                             {item.comment}
+                                        </span>
+                                        <span>
+                                            {item.userId}
                                         </span>
                                         <span>
                                             {item.comment_date}
                                         </span>
                                     </div>
                                         :
-                                        <span>
+                                        <div key={item.id}>
 
-                                        </span>
+                                        </div>
                                 )}
                             </div>
                         </div>
