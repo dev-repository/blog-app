@@ -19,9 +19,6 @@ function PostCard() {
     const bb = comen.map((i) => i.postId);
     console.log(bb);
 
-
-
-
     return (
         <>
             {WriteList.map((item, index) => {
@@ -51,7 +48,7 @@ function PostCard() {
                             <div className="sub-info">
                                 <span>{item.date}</span>
                                 <span className="separator">·</span>
-                                <span>
+                                <span coments={coments}>
                                     {coments.length}
                                     개의 댓글</span>
                             </div>

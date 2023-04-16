@@ -13,12 +13,6 @@ function FlatPostCardList(props) {
             );
         })}
         
-            {/* {Array.from({ length: 10 }).map((_, index) => (
-                        <FlatPostCard
-                          key={`-${index}`}
-                        />
-            ))} */}
-    
         </PostCardListBlock>
     );
 };

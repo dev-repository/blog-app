@@ -6,12 +6,16 @@ import { Icons } from "../../static/svg/Icons";
 
 function FlatPostCard(props){
     const Detail =`/write/writeDetail/${props.i.id}`
+    const comen = JSON.parse(localStorage.getItem("comments") || "[]");
+    const coments = comen.filter(i => i.postId === props.i.id);
+
     return(
             <PostCardBlock>
                 <div className="user-info">
                     <img 
                         src="/imgs/user-thumbnail.png" 
                         alt="userIcon" />
+            
             
                     <div className="username">
                         {props.i.writer}
@@ -32,7 +36,7 @@ function FlatPostCard(props){
                 <div className="subinfo">
                     <span>{props.i.date}</span>
                     <div className="separator">·</div>
-                    <span>개의 댓글</span>
+                    <span>{coments.length}개의 댓글</span>
                     <div className="separator">·</div>
                     <span className="likes">
                         <Icons.LikeIcon />
