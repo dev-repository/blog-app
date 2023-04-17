@@ -6,6 +6,7 @@ import { Icons } from "../../static/svg/Icons";
 import ToggleIcon from "./ToggleIcon";
 import HeaderUserIcon from "./HeaderUserIcon";
 import HeaderUserMenu from "./HeaderUserMenu";
+import AuthModal from "../Form/AuthModal";
 
 function NavBar(){
     //login
@@ -67,7 +68,7 @@ function NavBar(){
                 
                 </Right> 
                 ):(
-                    <Right>
+                <Right>
                     <ToggleIcon />
                     <SearchButton to={"/search"}>
                         <Icons.SearchIcon />
@@ -76,6 +77,7 @@ function NavBar(){
                     <RoundButton onClick={useLogin}>
                         로그인
                     </RoundButton>
+                    <AuthModal />
                 </Right> 
                 )}
                 

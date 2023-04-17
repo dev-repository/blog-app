@@ -48,7 +48,7 @@ function PostCard() {
                             <div className="sub-info">
                                 <span>{item.date}</span>
                                 <span className="separator">·</span>
-                                <span coments={coments}>
+                                <span>
                                     {coments.length}
                                     개의 댓글</span>
                             </div>

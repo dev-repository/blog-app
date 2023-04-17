@@ -7,7 +7,7 @@ import FlatPostCardList from "./FlatPostCardList";
 
 function SearchForm(){
     const title = JSON.parse(localStorage.getItem("writeForm") || "[]");
-    const [teyword, setKeyword ] = useState('');
+    const [teyword, setKeyword] = useState('');
     
     //검색 count 생성 
     const count = title.filter(i => i.title === teyword); 
