@@ -4,7 +4,7 @@ import { MdClose } from "react-icons/md";
 import transitions from "../../styles/transitions";
 
 function AuthModal(props){
-    const visible = false;
+    const visible = true;
     
     return(
         <AuthModalBlock visible={visible}>
@@ -44,10 +44,7 @@ const AuthModalBlock = styled.div`
             width: auto;
             height: 100%;
         }
-    }
-
-    
-    ${(props) =>
+        ${(props) =>
       props.visible
         ? css`
             animation: ${transitions.popInFromBottom} 0.4s forwards ease-in-out;
@@ -110,6 +107,9 @@ const AuthModalBlock = styled.div`
         flex-direction: column;
       }
     }
+    
+      }
+
 `
 
 

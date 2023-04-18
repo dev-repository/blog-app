@@ -7,6 +7,7 @@ import ToggleIcon from "./ToggleIcon";
 import HeaderUserIcon from "./HeaderUserIcon";
 import HeaderUserMenu from "./HeaderUserMenu";
 import AuthModal from "../Form/AuthModal";
+import AuthModallForm from "../Form/AuthModalForm";
 
 function NavBar(){
     //login
@@ -77,7 +78,9 @@ function NavBar(){
                     <RoundButton onClick={useLogin}>
                         로그인
                     </RoundButton>
-                    <AuthModal />
+                    <AuthModal>
+                        <AuthModallForm />
+                    </AuthModal>
                 </Right> 
                 )}
                 
