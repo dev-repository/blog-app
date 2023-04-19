@@ -1,30 +1,51 @@
-import React, { Children } from "react";
+import React, { cildren, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { MdClose } from "react-icons/md";
 import transitions from "../../styles/transitions";
 
-function AuthModal(props){
-    const visible = true;
-    
-    return(
-        <AuthModalBlock visible={visible}>
-            <div className="wrapper">
-                <div className="gray-block">
-                    <div>
-                        <img src="https://static.velog.io/static/media/undraw_joyride_hnno.fae6b95e.svg" alt="welcome"/>
-                        <div className="welcome">환영합니다!</div>
-                    </div>
-                </div>
-                <div className="white-block">
-                    <div className="exit-wrapper">
-                        <MdClose bIndex={1}/>
-                    </div>
-                    <div className="block-content">{props.children}</div>
-                </div>
-            </div>
-        </AuthModalBlock>
-    )
-};
+function AuthModal({ visible, onClose, children }) {
+  const [closed, setClosed] = useState(true);
+
+  useEffect(() => {
+    let timeoutId = null;
+    if (visible) {
+      setClosed(false);
+    } else {
+      timeoutId = setTimeout(() => {
+        setClosed(true);
+      }, 200);
+    }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [visible]);
+
+  if (!visible && closed) return null;
+
+  return (
+    <AuthModalBlock visible={visible}>
+      <div className="wrapper">
+        <div className="gray-block">
+          <div>
+            <img
+              src="https://static.velog.io/static/media/undraw_joyride_hnno.fae6b95e.svg"
+              alt="welcome"
+            />
+            <div className="welcome">환영합니다!</div>
+          </div>
+        </div>
+        <div className="white-block">
+          <div className="exit-wrapper">
+            <MdClose onClick={onClose} bIndex={1} />
+          </div>
+          <div className="block-content">{children}</div>
+        </div>
+      </div>
+    </AuthModalBlock>
+  );
+}
 
 const AuthModalBlock = styled.div`
   position: fixed;
@@ -36,15 +57,15 @@ const AuthModalBlock = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 20;
-    .wrapper {
-        width: 606px;
-        height: 530px;
-        @media (max-width: 768px) {
-            flex: 1;
-            width: auto;
-            height: 100%;
-        }
-        ${(props) =>
+  .wrapper {
+    width: 606px;
+    height: 570px;
+    @media (max-width: 768px) {
+      flex: 1;
+      width: auto;
+      height: 100%;
+    }
+    ${(props) =>
       props.visible
         ? css`
             animation: ${transitions.popInFromBottom} 0.4s forwards ease-in-out;
@@ -56,11 +77,11 @@ const AuthModalBlock = styled.div`
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.09);
     display: flex;
     .gray-block {
-        @media (max-width: 768px) {
-            display: none;
-        }
+      @media (max-width: 768px) {
+        display: none;
+      }
       width: 216px;
-      background: #F8F9FA;
+      background: #f8f9fa;
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
@@ -81,7 +102,7 @@ const AuthModalBlock = styled.div`
     }
     .white-block {
       flex: 1;
-      background: #FFFFFF;
+      background: #ffffff;
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
@@ -92,7 +113,7 @@ const AuthModalBlock = styled.div`
         display: flex;
         justify-content: flex-end;
         font-size: 1.5rem;
-        color: #868E96;
+        color: #868e96;
         margin-bottom: 2.25rem;
         svg {
           cursor: pointer;
@@ -107,10 +128,7 @@ const AuthModalBlock = styled.div`
         flex-direction: column;
       }
     }
-    
-      }
-
-`
-
+  }
+`;
 
 export default AuthModal;

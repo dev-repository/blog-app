@@ -1,83 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Button, Checkbox, Form, Input } from "antd";
+import RegisterModal from "./RegisterModal";
+import LoginModal from "./LoginModal";
 
-function AuthModallForm() {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+function AuthModallForm({ onClose }) {
+  const [modalForm, setModalForm] = useState(true);
+  const modalText = modalForm ? "로그인" : "회원가입";
+  const modalText2 = modalForm
+    ? "아직 회원이 아니신가요?"
+    : "계정이 이미 있으신가요?";
 
   return (
     <AuthFormBlock>
       <div className="upper-wrapper">
-        <h2 data-testid="title">로그인</h2>
+        <h2 data-testid="title">{modalText}</h2>
         <section>
           <h4></h4>
-          <Form
-            layout="vertical"
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            style={{
-              maxWidth: 600,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="ID"
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: "ID를 입력해주세요",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "PASSWORD를 입력해주세요",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                로그인
-              </Button>
-            </Form.Item>
-          </Form>
+          {modalForm ? (
+            <LoginModal onClose={onClose} />
+          ) : (
+            <RegisterModal onClose={onClose} />
+          )}
         </section>
       </div>
       <div className="foot">
-        <span>아직 회원이 아니신가요?</span>
-        <div className="link" data-testid="switchmode">
-          회원가입
+        <span>{modalText2}</span>
+        <div
+          className="link"
+          data-testid="switchmode"
+          onClick={(e) => setModalForm(!modalForm)}
+        >
+          {modalForm ? "회원가입" : "로그인"}
         </div>
       </div>
     </AuthFormBlock>
