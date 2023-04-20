@@ -19,9 +19,6 @@ function PostCard() {
     const bb = comen.map((i) => i.postId);
     console.log(bb);
 
-
-
-
     return (
         <>
             {WriteList.map((item, index) => {
