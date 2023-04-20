@@ -19,7 +19,7 @@ function AuthModallForm({ onClose }) {
           {modalForm ? (
             <LoginModal onClose={onClose} />
           ) : (
-            <RegisterModal onClose={onClose} />
+            <RegisterModal onClose={onClose} setModalForm={setModalForm} />
           )}
         </section>
       </div>
