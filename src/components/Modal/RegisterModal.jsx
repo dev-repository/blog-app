@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { Button, Form, Input, Radio } from "antd";
+import moment from "moment";
 
 function RegisterModal({ setModalForm }) {
   //localstorage에서 유저정보 가져옴.
   const users = localStorage.getItem("users") || "[]";
   //예전 users를 json.parse로 넣어주는 변수 생성
   const oldUsers = JSON.parse(users);
+  const joinDate = moment().format("YYYY년MM월DD일");
 
   //이름, 아이디, 비밀번호, 비밀번호 확인
   const [userName, setUsername] = useState("");
@@ -59,7 +61,8 @@ function RegisterModal({ setModalForm }) {
       const idRegex = /^[a-zA-Z0-9]{5,15}$/; // 영문 대소문자와 숫자, 5~15자리
       const idCurrent = e.target.value;
       //중복체크
-      //some() 함수 일치하는것만 true false
+      //some() 함수 하나라도 일치하면 true false
+      //every() 모두다 일치해야 true false
       const inUsed = oldUsers.some((i) => i.userId === idCurrent);
       setUserId(idCurrent);
 
@@ -131,14 +134,15 @@ function RegisterModal({ setModalForm }) {
     },
     [password]
   );
-
   const onFinish = (values) => {
     console.log("Success:", values);
+
     const userInpo = {
       userName,
       userId,
       password,
       userType,
+      joinDate,
     };
     //새로운 배열을 저장 예전 변수를 먼저 넣고 users에 새로운데이터를 넣음
     localStorage.setItem("users", JSON.stringify([...oldUsers, userInpo]));
