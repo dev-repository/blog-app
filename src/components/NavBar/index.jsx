@@ -6,8 +6,8 @@ import { Icons } from "../../static/svg/Icons";
 import ToggleIcon from "./ToggleIcon";
 import HeaderUserIcon from "./HeaderUserIcon";
 import HeaderUserMenu from "./HeaderUserMenu";
-import AuthModal from "../Form/AuthModal";
-import AuthModallForm from "../Form/AuthModalForm";
+import AuthModal from "../Modal/AuthModal";
+import AuthModallForm from "../Modal/AuthModalForm";
 
 function NavBar() {
   //login

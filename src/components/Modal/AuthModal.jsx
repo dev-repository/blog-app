@@ -1,4 +1,4 @@
-import React, { cildren, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { MdClose } from "react-icons/md";
 import transitions from "../../styles/transitions";
