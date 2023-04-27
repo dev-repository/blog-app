@@ -1,6 +1,5 @@
-import { Routes, Route, Outlet, Link } from "react-router-dom";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import { useState, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Write from "./pages/Write";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
@@ -9,21 +8,32 @@ import WriteDetail from "./pages/Write/WriteDetail";
 import AdminPage from "./pages/Admin";
 
 export default function App() {
+  const [session, setState] = useState(null);
+
+  let location = useLocation();
+
+  useEffect(() => {
+    const jsonString = localStorage.getItem("session");
+    if (jsonString) {
+      setState(JSON.parse(jsonString));
+    }
+  }, [location]);
+
   return (
     <Routes>
       <Route path="/">
         <Route index element={<Home />} />
-        {/* <Route path="Register" element={<Register />} />
-        <Route path="login" element={<Login />} /> */}
         <Route path="write" element={<Write />} />
         <Route path="write/:id" element={<Write />} />
         <Route path="/write/writeDetail/:id" element={<WriteDetail />} />
         <Route path="search" element={<Search />} />
-        <Route path="*" element={<Error />} />
+        <Route path="*" element={<Error session={session} />} />
       </Route>
-      <Route path="/admin">
-        <Route index element={<AdminPage />} />
-      </Route>
+      {session?.userType === "관리자" ? (
+        <Route path="/admin">
+          <Route index element={<AdminPage />} />
+        </Route>
+      ) : null}
     </Routes>
   );
 }
