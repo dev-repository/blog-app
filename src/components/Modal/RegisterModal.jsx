@@ -1,8 +1,21 @@
 import React, { useState, useCallback } from "react";
 import { Button, Form, Input, Radio } from "antd";
 import moment from "moment";
+import { useSignupStore } from "../../store/useSignupStore";
 
 function RegisterModal({ setModalForm }) {
+  const {
+    userName,
+    userId,
+    password,
+    confirmPwd,
+    setUserName,
+    setUserId,
+    setPassword,
+    setConfirmPwd,
+  } = useSignupStore();
+
+  console.log(useSignupStore());
   //localstorage에서 유저정보 가져옴.
   const users = localStorage.getItem("users") || "[]";
   //예전 users를 json.parse로 넣어주는 변수 생성
@@ -10,10 +23,10 @@ function RegisterModal({ setModalForm }) {
   const joinDate = moment().format("YYYY년MM월DD일");
 
   //이름, 아이디, 비밀번호, 비밀번호 확인
-  const [userName, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPw, setConfirmPw] = useState("");
+  // const [userName, setUsername] = useState("");
+  // const [userId, setUserId] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPw, setConfirmPw] = useState("");
 
   //관리자 설정
   const userTypes = ["관리자", "회원"];
@@ -38,7 +51,7 @@ function RegisterModal({ setModalForm }) {
   //이름
   const onChangeName = useCallback((e) => {
     const inputId = e.target.value;
-    setUsername(inputId);
+    setUserName(inputId);
 
     if (!inputId) {
       setNameMessage("");
@@ -116,7 +129,7 @@ function RegisterModal({ setModalForm }) {
   const onCheckPw = useCallback(
     (e) => {
       const checkPw = e.target.value;
-      setConfirmPw(checkPw);
+      setConfirmPwd(checkPw);
 
       if (!checkPw) {
         setConPwMessage("");
@@ -206,7 +219,7 @@ function RegisterModal({ setModalForm }) {
         validateState={checkConPw ? "error" : undefined}
         help={conPwMessage}
       >
-        <Input.Password onChange={onCheckPw} value={confirmPw} />
+        <Input.Password onChange={onCheckPw} value={confirmPwd} />
       </Form.Item>
 
       <Form.Item label="회원타입" name="userType">
