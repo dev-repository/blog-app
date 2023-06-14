@@ -6,6 +6,8 @@ import Search from "./pages/Search";
 import Error from "./pages/Error";
 import WriteDetail from "./pages/Write/WriteDetail";
 import AdminPage from "./pages/Admin";
+//test용
+import WriteForm2 from "./components/Write";
 
 export default function App() {
   const [session, setState] = useState(null);
@@ -24,6 +26,7 @@ export default function App() {
       <Route path="/">
         <Route index element={<Home />} />
         <Route path="write" element={<Write />} />
+        <Route path="write2" element={<WriteForm2 />} />
         <Route path="write/:id" element={<Write />} />
         <Route path="/write/writeDetail/:id" element={<WriteDetail />} />
         <Route path="search" element={<Search />} />
