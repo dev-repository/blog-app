@@ -27,7 +27,7 @@ export default function App() {
         <Route path="write/:id" element={<Write />} />
         <Route path="/write/writeDetail/:id" element={<WriteDetail />} />
         <Route path="search" element={<Search />} />
-        <Route path="*" element={<Error session={session} />} />
+        <Route path="*" element={<Error />} />
       </Route>
       {session?.userType === "관리자" ? (
         <Route path="/admin">

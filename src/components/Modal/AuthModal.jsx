@@ -38,7 +38,7 @@ function AuthModal({ visible, onClose, children }) {
         </div>
         <div className="white-block">
           <div className="exit-wrapper">
-            <MdClose onClick={onClose} bIndex={1} />
+            <MdClose onClick={onClose} />
           </div>
           <div className="block-content">{children}</div>
         </div>

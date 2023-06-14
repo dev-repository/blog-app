@@ -1,66 +1,79 @@
 import React, { useState } from "react";
 import NavBar from "../NavBar";
-import {
-  MenuFoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, VideoCameraOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme, Table } from "antd";
-const { Header, Sider, Content } = Layout;
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "이름",
+    dataIndex: "userName",
+    align: "center",
+    width: "20%",
   },
   {
-    title: "Age",
-    dataIndex: "age",
+    title: "아이디",
+    dataIndex: "userId",
+    align: "center",
+    width: "20%",
   },
   {
-    title: "Address",
-    dataIndex: "address",
+    title: "비밀번호",
+    dataIndex: "password",
+    align: "center",
+    width: "30%",
+  },
+  {
+    title: "가입일",
+    dataIndex: "joinDate",
+    align: "center",
+    width: "20%",
+  },
+  {
+    title: "유저권한",
+    dataIndex: "userType",
+    align: "center",
+    width: "10%",
   },
 ];
-const data = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
-}
+
+const articles = [
+  {
+    title: "제목",
+    dataIndex: "title",
+    width: "60%",
+    align: "center",
+  },
+  {
+    title: "작성자",
+    dataIndex: "writer",
+    width: "20%",
+    align: "center",
+  },
+  {
+    title: "작성일",
+    dataIndex: "date",
+    width: "20%",
+    align: "center",
+  },
+];
 
 function Admin() {
+  const userInfo = JSON.parse(localStorage.getItem("users") || "[]");
+  const articleInfo = JSON.parse(localStorage.getItem("writeForm") || "[]");
+
   const { Header, Sider, Content } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const start = () => {
-    setLoading(true);
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([]);
-      setLoading(false);
-    }, 1000);
+  const [current, setCurrent] = useState("1");
+
+  const onClick = (e) => {
+    console.log("click ", e);
+    setCurrent(e.key);
   };
 
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-
-  const hasSelected = selectedRowKeys.length > 0;
   return (
     <>
       <NavBar />
@@ -70,44 +83,23 @@ function Admin() {
           <Menu
             theme="dark"
             mode="inline"
-            defaultSelectedKeys={["1"]}
+            onClick={onClick}
+            selectedKeys={[current]}
             items={[
               {
                 key: "1",
                 icon: <UserOutlined />,
-                label: "nav 1",
+                label: "회원 목록",
               },
               {
                 key: "2",
                 icon: <VideoCameraOutlined />,
-                label: "nav 2",
-              },
-              {
-                key: "3",
-                icon: <UploadOutlined />,
-                label: "nav 3",
+                label: "글 목록",
               },
             ]}
           />
         </Sider>
         <Layout>
-          <Header
-            style={{
-              padding: 0,
-              background: colorBgContainer,
-            }}
-          >
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-            />
-          </Header>
           <Content
             style={{
               margin: "24px 16px",
@@ -121,30 +113,20 @@ function Admin() {
                 style={{
                   marginBottom: 16,
                 }}
-              >
-                <Button
-                  type="primary"
-                  onClick={start}
-                  disabled={!hasSelected}
-                  loading={loading}
-                >
-                  Reload
-                </Button>
-                <span
-                  style={{
-                    marginLeft: 8,
-                  }}
-                >
-                  {hasSelected
-                    ? `Selected ${selectedRowKeys.length} items`
-                    : ""}
-                </span>
-              </div>
-              <Table
-                rowSelection={rowSelection}
-                columns={columns}
-                dataSource={data}
-              />
+              ></div>
+              {current === "1" ? (
+                <Table
+                  columns={columns}
+                  dataSource={userInfo}
+                  rowKey={"userId"}
+                />
+              ) : (
+                <Table
+                  columns={articles}
+                  dataSource={articleInfo}
+                  rowKey={"title"}
+                />
+              )}
             </div>
           </Content>
         </Layout>

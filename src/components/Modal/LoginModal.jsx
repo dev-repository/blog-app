@@ -1,12 +1,7 @@
 import React from "react";
 import { Button, Form, Input } from "antd";
-// import { useSessionStore } from "../../store/useAuthStore";
-// import { useSessionStore } from "../../store/useAuthStore";
-
-
 
 function LoginModal({ onClose }) {
-
   const onFinish = (values) => {
     console.log("Success:", values);
     //Local Storage에서 회원가입한 정보를 가져옴
@@ -20,8 +15,7 @@ function LoginModal({ onClose }) {
     );
     //위 조건이 다 맞으면 session을생성하고 조건에 맞았던 데이터를 json.stringify에 넣음
     if (user) {
-      // localStorage.setItem("session", JSON.stringify(user));
-      login();
+      localStorage.setItem("session", JSON.stringify(user));
       onClose();
     }
   };
