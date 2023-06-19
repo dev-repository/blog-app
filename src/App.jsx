@@ -7,7 +7,7 @@ import Error from "./pages/Error";
 import WriteDetail from "./pages/Write/WriteDetail";
 import AdminPage from "./pages/Admin";
 //test용
-import WriteForm2 from "./components/Write";
+import WriteForm2 from "./pages/Write2";
 
 export default function App() {
   const [session, setState] = useState(null);
