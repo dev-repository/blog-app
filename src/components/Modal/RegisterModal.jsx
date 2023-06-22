@@ -7,7 +7,7 @@ function RegisterModal({ setModalForm }) {
   const users = localStorage.getItem("users") || "[]";
   //예전 users를 json.parse로 넣어주는 변수 생성
   const oldUsers = JSON.parse(users);
-  const joinDate = moment().format("YYYY년MM월DD일");
+  const joinDate = moment().format("YYYY년 MM월 DD일");
 
   //이름, 아이디, 비밀번호, 비밀번호 확인
   const [userName, setUsername] = useState("");

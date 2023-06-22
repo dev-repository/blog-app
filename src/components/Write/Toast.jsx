@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 
-const TuiEditor = ({ content = "" }) => {
+const TuiEditor = ({ content = undefined, postValue }) => {
   const toolbarItems = [
     ["heading", "bold", "italic", "strike"],
     ["hr"],
@@ -29,10 +29,17 @@ const TuiEditor = ({ content = "" }) => {
     };
   }, []);
 
+  const contentValue = useRef();
+
+  const onChange = () => {
+    const data = contentValue.current.getInstance().getHTML();
+    postValue(data);
+  };
+
   return (
     <>
       <Editor
-        initialValue={content || " "} // 글 수정 시 사용
+        initialValue={content} // 글 수정 시 사용
         initialEditType="markdown" // wysiwyg & markdown
         previewStyle={windowSize.width < 768 ? "tab" : "vertical"} // tab, vertical
         hideModeSwitch={true}
@@ -40,6 +47,8 @@ const TuiEditor = ({ content = "" }) => {
         theme={""} // '' & 'dark'
         usageStatistics={false}
         toolbarItems={toolbarItems}
+        ref={contentValue}
+        onChange={onChange}
         useCommandShortcut={true}
       />
     </>
