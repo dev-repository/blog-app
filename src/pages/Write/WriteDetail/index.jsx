@@ -8,33 +8,49 @@ import { Input, Button } from "antd";
 import { generateUUID } from "../../../utils/utils";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Viewer } from "@toast-ui/react-editor";
 
 const WriteDetail = () => {
+  //데이터를 꺼내오기위한 key
   const { id } = useParams();
+  //상세 데이터
   const [number, setNumber] = useState(null);
+  //로그인 정보 가져올려고
   const loginUser = JSON.parse(localStorage.getItem("session"));
   const login = JSON.parse(localStorage.getItem("writeForm"));
   console.log(login);
   console.log(loginUser.userId);
+  //뎃글 날짜 현제시간으로 저장하려고
   const comment_date = moment().format("YYYY년MM월DD일");
+  //뎃글 관련 로컬스토리지 정보
   const mList = JSON.parse(localStorage.getItem("comments") || "[]");
+  // 필요가 없는데 ?
   const loginWriter = JSON.parse(localStorage.getItem("session") || "[]");
+  //뎃글 필요한 정보 저장용
   const [ment, setMent] = useState({
     id: "",
     comment: "",
     userId: "",
   });
+
+  //홈화면 가기위한거
   const naviHome = useNavigate();
   const homeNavi = () => {
     naviHome("/");
   };
+
+  //데이터를 가져오는 역활
   useEffect(() => {
     const WriteList = JSON.parse(localStorage.getItem("writeForm") || "[]");
+    //로컬스토리지랑 같은 id값 찾기 위한것.
     const selectNumber = WriteList.find((item) => item.id === id);
     setNumber(selectNumber);
   }, [id]);
+
   console.log(number);
 
+  //삭제
   const handleDelete = () => {
     const confirm = window.confirm("해당 글을 삭제하시겠습니까?");
     if (confirm) {
@@ -51,6 +67,8 @@ const WriteDetail = () => {
       homeNavi();
     }
   };
+
+  //뎃글 저장하기
   const submit = () => {
     const OldComment = localStorage.getItem("comments") || "[]";
     const old_comment = JSON.parse(OldComment);
@@ -84,7 +102,9 @@ const WriteDetail = () => {
               </div>
               <div className="description-wrapper">
                 <h3>내용</h3>
-                <div>{number.content}</div>
+                <div>
+                  <Viewer initialValue={number.content} />
+                </div>
               </div>
               <div className="description-wrapper">
                 <h3>날짜</h3>

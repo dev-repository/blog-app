@@ -1,5 +1,5 @@
 import React from "react";
-import WriteForm2 from "../../components/Write";
+import WriteForm2 from "../../components/Post";
 
 function wirte2() {
   return (

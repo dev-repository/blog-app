@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Write from "./pages/Write";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Error from "./pages/Error";
-import WriteDetail from "./pages/Write/WriteDetail";
 import AdminPage from "./pages/Admin";
-//test용
-import WriteForm2 from "./pages/Write2";
+import WriteForm2 from "./pages/Post";
+import Detail2 from "./pages/Post/PostDetail";
 
 export default function App() {
   const [session, setState] = useState(null);
@@ -25,11 +23,13 @@ export default function App() {
     <Routes>
       <Route path="/">
         <Route index element={<Home />} />
-        <Route path="write" element={<Write />} />
-        <Route path="write2" element={<WriteForm2 />} />
-        <Route path="write/:id" element={<Write />} />
-        <Route path="write2/:id" element={<WriteForm2 />} />
-        <Route path="/write/writeDetail/:id" element={<WriteDetail />} />
+        <Route path="write" element={<WriteForm2 />} />
+        <Route path="update/:id" element={<WriteForm2 />} />
+        <Route path="post/:id" element={<Detail2 />} />
+        {/* 업글전  */}
+        {/* <Route path="write2" element={<Write />} /> */}
+        {/* <Route path="write2/:id" element={<Write />} /> */}
+        {/* <Route path="/write/writeDetail2/:id" element={<WriteDetail />} /> */}
         <Route path="search" element={<Search />} />
         <Route path="*" element={<Error />} />
       </Route>

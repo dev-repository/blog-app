@@ -17,11 +17,13 @@ const TuiEditor = ({ content = undefined, postValue }) => {
     width: window.innerWidth,
   });
 
+  //싸이즈 조절 이벤트
   const handResize = () => {
     setWindowSize({
       width: window.innerWidth,
     });
   };
+
   useEffect(() => {
     window.addEventListener("resize", handResize);
     return () => {
@@ -35,6 +37,13 @@ const TuiEditor = ({ content = undefined, postValue }) => {
     const data = contentValue.current.getInstance().getHTML();
     postValue(data);
   };
+
+  //강제 버그고치기
+  useEffect(() => {
+    contentValue.current?.getInstance().setHTML(content);
+  }, [content]);
+
+  //console.log(content);
 
   return (
     <>

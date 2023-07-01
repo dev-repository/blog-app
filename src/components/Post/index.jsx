@@ -39,7 +39,7 @@ function WriteForm2() {
   const titleValue = useRef();
 
   //useParams
-  //app.js "write2/:id" 값이랑 똑같아야 결과값이 나옴.
+  //app.js 에서 "write2/:id" 값이랑 똑같아야 결과값이 나옴.
   const { id } = useParams();
 
   const postValue = (e) => {
@@ -71,14 +71,16 @@ function WriteForm2() {
         "writeForm",
         JSON.stringify(
           [...oldPostData].map((item) => {
-            if (item.id === postId) {
+            if (item.id === id) {
               return {
                 ...item,
                 ...postInfo,
                 date: saveDate,
                 writer: writer.userId,
+                writerName: writer.userName,
               };
             }
+            return item;
           })
         )
       );
@@ -92,6 +94,7 @@ function WriteForm2() {
             id: postId,
             date: saveDate,
             writer: writer.userId,
+            writerName: writer.userName,
           },
         ])
       );
