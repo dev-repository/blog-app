@@ -22,6 +22,24 @@ function CommentList() {
     }
   }, [id]);
 
+  //댓글 수정 토글 작업.
+  const [toggle, setToggle] = useState(false);
+
+  //수정 버튼
+  const onEdting = (id) => {
+    const selectId = comen.find((item) => item.id === id);
+    if (id == selectId.id) {
+      setToggle(true);
+    }
+    console.log("selectId값", selectId.id);
+    console.log("id값", id);
+  };
+
+  //수정 취소시
+  const offEdting = () => {
+    setToggle(false);
+  };
+
   //댓글 삭제
   //밑에서 리턴된 id값으로 값을 제외하고 로컬스토리지에서 재배치
   const deleteComment = (id) => {
@@ -50,16 +68,36 @@ function CommentList() {
                 </div>
               </div>
               {sessoin.userId === item.userId ? (
-                <div className="actions">
-                  <span>수정</span>
-                  <span onClick={() => deleteComment(item.id)}>삭제</span>
-                </div>
+                <>
+                  {toggle ? (
+                    <div className="actions">
+                      <span onClick={() => deleteComment(item.id)}>삭제</span>
+                    </div>
+                  ) : (
+                    <div className="actions">
+                      <span onClick={() => onEdting(item.id)}>수정</span>
+                      <span onClick={() => deleteComment(item.id)}>삭제</span>
+                    </div>
+                  )}
+                </>
               ) : null}
             </CommentHead>
 
-            <CommentConent>
-              <p>{item.comment}</p>
-            </CommentConent>
+            {toggle ? (
+              <>
+                <PostCommentsWriteBlock>
+                  <StyledText value={item.comment} />
+                  <div className="buttons-wrapper">
+                    <CustomBtn onClick={offEdting}>취소</CustomBtn>
+                    <CustomBtn2>댓글 수정</CustomBtn2>
+                  </div>
+                </PostCommentsWriteBlock>
+              </>
+            ) : (
+              <CommentConent>
+                <p>{item.comment}</p>
+              </CommentConent>
+            )}
 
             <Separator />
           </React.Fragment>
@@ -162,6 +200,73 @@ const Separator = styled.div`
   @media (max-width: 768px) {
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+`;
+
+// 수정시 생기는 이벤트용
+const PostCommentsWriteBlock = styled.div`
+  > .buttons-wrapper {
+    display: flex;
+    justify-content: flex-end;
+  }
+`;
+const StyledText = styled.textarea`
+  resize: none;
+  padding: 1rem;
+  padding-bottom: 1.5rem;
+  outline: none;
+  border: 1px solid #f1f3f5;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  border-radius: 4px;
+  min-height: 6.125rem;
+  font-size: 1rem;
+  color: #212529;
+  &::placeholder {
+    color: #868e96;
+  }
+  line-height: 1.75;
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
+  background: #ffffff;
+`;
+
+const CustomBtn = styled.button`
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+  color: #12b886;
+  border-radius: 4px;
+  padding: 0px 1.25rem;
+  height: 2rem;
+  font-size: 1rem;
+`;
+const CustomBtn2 = styled.button`
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: #12b886;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 0px 1.25rem;
+  height: 2rem;
+  font-size: 1rem;
+  &:disabled {
+    cursor: no-drop;
   }
 `;
 

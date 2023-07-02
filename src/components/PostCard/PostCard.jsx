@@ -18,7 +18,6 @@ function PostCard() {
           <Block key={index} onClick={() => handleWriteClick(index)}>
             <StyledLink>
               <Link to={`/post/${item.id}`}>
-                {/* index +1 이런식으로 코드짜도 되는지 질문 */}
                 <RatioImg widthRatio={1.916} heightRatio={1}></RatioImg>
               </Link>
             </StyledLink>

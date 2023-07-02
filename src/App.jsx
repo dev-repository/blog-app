@@ -18,6 +18,7 @@ export default function App() {
       setState(JSON.parse(jsonString));
     }
   }, [location]);
+  2;
 
   return (
     <Routes>
