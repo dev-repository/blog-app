@@ -28,11 +28,13 @@ function CommentList() {
   //수정 버튼
   const onEdting = (id) => {
     const selectId = comen.find((item) => item.id === id);
-    if (id == selectId.id) {
-      setToggle(true);
+    const selectCommentId = selectId.id;
+    const [select, setSelect] = useState({ selectCommentId });
+    if (id === setSelect()) {
+      console.log("우앙웅", id === setSelect());
     }
-    console.log("selectId값", selectId.id);
-    console.log("id값", id);
+
+    setToggle(true);
   };
 
   //수정 취소시
