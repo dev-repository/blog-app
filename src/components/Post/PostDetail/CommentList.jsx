@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
@@ -22,24 +22,54 @@ function CommentList() {
     }
   }, [id]);
 
-  //댓글 수정 토글 작업.
-  const [toggle, setToggle] = useState(false);
+  //댓글 수정 상태
+  const [comment, setComment] = useState("");
+
+  const onComment = useCallback((e) => {
+    const iptComment = e.target.value;
+    setComment(iptComment);
+  }, []);
+
+  //댓글 Id랑 component랑 같은거 찾기
+  const [targetComen, setTargetComen] = useState(null);
 
   //수정 버튼
   const onEdting = (id) => {
     const selectId = comen.find((item) => item.id === id);
-    const selectCommentId = selectId.id;
-    const [select, setSelect] = useState({ selectCommentId });
-    if (id === setSelect()) {
-      console.log("우앙웅", id === setSelect());
+    if (selectId) {
+      setTargetComen(selectId);
+    } else {
+      setTargetComen(null);
     }
-
-    setToggle(true);
   };
 
   //수정 취소시
   const offEdting = () => {
-    setToggle(false);
+    setTargetComen(null);
+  };
+
+  //댓글 수정
+  //map으로 배열찾고, item.id === selcet.id랑 같은값으로만 수정되게끔 하기
+  const updateBtn = (id) => {
+    const selectId = comen.find((item) => item.id === id);
+    if (id) {
+      localStorage.setItem(
+        "comments",
+        JSON.stringify(
+          [...comen].map((item) => {
+            if (item.id === selectId) {
+              return {
+                ...comen,
+                writer: sessoin.userId,
+                writerName: sessoin.userName,
+                comment: comment,
+              };
+            }
+          })
+        )
+      );
+    }
+    window.location.reload();
   };
 
   //댓글 삭제
@@ -71,7 +101,8 @@ function CommentList() {
               </div>
               {sessoin.userId === item.userId ? (
                 <>
-                  {toggle ? (
+                  {/* target Comments Id값 하고 item.id 값하고 같으면 보여주고 다르면 안보여준다 .  */}
+                  {targetComen && item.id === targetComen.id ? (
                     <div className="actions">
                       <span onClick={() => deleteComment(item.id)}>삭제</span>
                     </div>
@@ -85,13 +116,18 @@ function CommentList() {
               ) : null}
             </CommentHead>
 
-            {toggle ? (
+            {targetComen && item.id === targetComen.id ? (
               <>
                 <PostCommentsWriteBlock>
-                  <StyledText value={item.comment} />
+                  <StyledText
+                    defaultValue={item.comment}
+                    onChange={onComment}
+                  />
                   <div className="buttons-wrapper">
                     <CustomBtn onClick={offEdting}>취소</CustomBtn>
-                    <CustomBtn2>댓글 수정</CustomBtn2>
+                    <CustomBtn2 onClick={() => updateBtn(item.id)}>
+                      댓글 수정
+                    </CustomBtn2>
                   </div>
                 </PostCommentsWriteBlock>
               </>
